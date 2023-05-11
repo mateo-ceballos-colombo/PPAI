@@ -31,3 +31,14 @@ def obtenerEstado():
     nombre = random.choice(arrayEstados)
     estado1 = Estado(nombre)
     return estado1
+
+class Estado:
+    def esFinalizada():
+        pass
+
+    def esIniciada():
+        pass
+
+    def getNombre():
+        pass
+

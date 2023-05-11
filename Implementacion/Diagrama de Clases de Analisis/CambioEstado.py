@@ -8,6 +8,7 @@
 # 
 #######################################################
 import Estado
+<<<<<<< HEAD
 import datetime
 import random
 
@@ -46,3 +47,23 @@ def obtenerFechaRandom():
     fechaRandom = datetime.datetime(anio_aleatorio, mes_aleatorio, dia_aleatorio, hora_aleatoria, minuto_aleatorio, segundo_aleatorio)
     cambioEstado1 = CambioEstado(fechaRandom, estado1)
     return cambioEstado1
+=======
+
+class CambioEstado:
+    m_Estado= Estado()
+
+    def esEstadoInicial():
+        pass
+
+    def esUltimoEstado():
+        pass
+
+    def getFechaHoraInicio():
+        pass
+
+    def getNombreEstado():
+        pass
+
+    def new():
+        pass
+>>>>>>> 88083ac7c46166c3251282e1eca0989aa58e69d0

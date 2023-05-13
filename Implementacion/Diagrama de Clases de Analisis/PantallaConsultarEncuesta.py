@@ -9,56 +9,101 @@
 #######################################################
 
 import PySimpleGUI as GUI
+import copy
+from datetime import datetime
 
 class PantallaConsultarEncuesta:
-    def __init__(self, gestorConsultarEncuesta = None, 
+    def __init__(self, 
+    gestorConsultarEncuesta = None, 
+    btnConsultarEncuesta = GUI.Button('Consultar Encuesta'),
+    btnCancelar = GUI.Button('Cancelar'),
     txtFechaInicio = GUI.InputText('Fecha Inicio: ', disabled = True, key='txtFI'), 
-    calendarBtnFechaInicio = GUI.CalendarButton(button_text='Seleccionar Inicio', key='BtnFI', target='txtFI', format='%d/%m/%Y'),
+    calendarBtnFechaInicio = GUI.CalendarButton(button_text='Seleccionar Inicio', key='BtnFI', target='txtFI', format='Fecha Inicio: %d/%m/%Y'),
     txtFechaFin = GUI.InputText('Fecha Fin: ', disabled = True, key='txtFF'),
-    calendarBtnFechaFin = GUI.CalendarButton(button_text='Seleccionar Fin', key='BtnFI', target='txtFF', format='%d/%m/%Y'),
-    btnCancel = GUI.Cancel()):
+    calendarBtnFechaFin = GUI.CalendarButton(button_text='Seleccionar Fin', key='BtnFI', target='txtFF', format='Fecha Fin: %d/%m/%Y'),
+    btnBuscar = GUI.Button('Buscar')
+    ):
         self.gestor = gestorConsultarEncuesta
+        self.btnConsultarEncuesta = btnConsultarEncuesta
+        self.btnCancel = btnCancelar
         self.txtFechaInicio = txtFechaInicio
         self.txtFechaFin = txtFechaFin
         self.calendarBtnFechaInicio = calendarBtnFechaInicio
         self.calendarBtnFechaFin = calendarBtnFechaFin
-        self.btnCancel = btnCancel
+        self.btnBuscar = btnBuscar
 
     def opcionConsultarEncuesta(self, gestor):
         self.gestor = gestor
         self.habilitarVentana()
 
     def habilitarVentana(self):
+        layout = [
+            [GUI.VPush()],
+            [GUI.Push(), self.btnConsultarEncuesta, GUI.Push()],
+            [GUI.VPush()],
+            [GUI.Push(), self.btnCancel]
+        ]        
+        # PySimpleGUI doesn't allow reusing layout elements
+        # so we need to deepcopy the reused layout elements
+        layout = copy.deepcopy(layout)
+
+        window = GUI.Window('Consultar Encuesta', layout, resizable=False, size = (300, 100))
+        
+        while True:
+            event, values = window.read()
+
+            if event == 'Consultar Encuesta':
+                window.close()
+                self.gestor.nuevaConsultaEncuesta()
+
+            if event == GUI.WIN_CLOSED or event == 'Cancelar':
+                break
+        
+        window.close()
+
+    def pedirPeriodo(self):
         col1 = GUI.Column([[self.txtFechaInicio], [self.txtFechaFin]])
         col2 = GUI.Column([[self.calendarBtnFechaInicio], [self.calendarBtnFechaFin]])
         layout = [
             [col1, col2],
-            [self.btnCancel]
+            [GUI.Push(), self.btnBuscar],
+            [GUI.Push(), self.btnCancel]
         ]
+        layout = copy.deepcopy(layout)
+        
         window = GUI.Window('Consultar Encuesta', layout, resizable=False)
+        
         while True:
             event, values = window.read()
-
-            if event == GUI.WIN_CLOSED or event == 'Cancel':
-                break
             
+            if event == 'Buscar':
+                if values['txtFI'] == 'Fecha Inicio: ' or values['txtFF'] == 'Fecha Fin: ':
+                    GUI.popup('Debe seleccionar un periodo', title='Error')
+                else:
+                    fechaInicio = datetime.strptime(values['txtFI'], 'Fecha Inicio: %d/%m/%Y')
+                    fechaFin = datetime.strptime(values['txtFF'], 'Fecha Fin: %d/%m/%Y').replace(hour=23, minute=59, second=59)
+                    if fechaInicio > fechaFin:
+                        GUI.popup('La fecha de inicio debe ser menor a la fecha de fin', title='Error')
+                    else:
+                        self.tomarPeriodo(fechaInicio, fechaFin)
+                        window.close()
 
+            if event == GUI.WIN_CLOSED or event == 'Cancelar':
+                break
+        
         window.close()
 
-    def pedirPeriodo():
+    def tomarPeriodo(self, fechaInicio, fechaFin):
+        self.gestor.tomarPeriodo(fechaInicio, fechaFin)
+
+    def pedirSeleccionLlamada(self):
         pass
 
-    def tomarPeriodo():
+    def tomarSeleccionLlamada(self):
         pass
 
-    def pedirSeleccionLlamada():
+    def pedirSeleccionSalida(self):
         pass
 
-    def tomarSeleccionLlamada():
-        pass
-
-    def pedirSeleccionSalida():
-        pass
-
-    def tomarSeleccionSalida():
+    def tomarSeleccionSalida(self):
         pass

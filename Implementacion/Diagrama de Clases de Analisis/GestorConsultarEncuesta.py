@@ -8,37 +8,41 @@
 # 
 #######################################################
 
-import datetime
+from datetime import datetime
 
 class GestorConsultarEncuesta:
     def __init__(self, 
     pantallaConsultarEncuesta = None, 
-    fechaInicioPeriodo = datetime.datetime.now(), 
-    fechaFinPeriodo = datetime.datetime.now()):
+    llamadas = [],
+    fechaInicioPeriodo = datetime.now(), 
+    fechaFinPeriodo = datetime.now()):
         self.pantalla = pantallaConsultarEncuesta
+        self.llamadas = llamadas
         self.fechaInicioPeriodo = fechaInicioPeriodo
         self.fechaFinPeriodo = fechaFinPeriodo
 
-    def nuevaConsultaEncuesta():
+    def nuevaConsultaEncuesta(self):
+        self.pantalla.pedirPeriodo()
+
+    def tomarPeriodo(self, fechaInicio, fechaFin):
+        self.fechaInicioPeriodo = fechaInicio
+        self.fechaFinPeriodo = fechaFin
+        self.buscarLlamadas()
+
+    def buscarLlamadas(self):
         pass
 
-    def tomarPeriodo():
+    def tomarSeleccionLlamada(self):
         pass
 
-    def buscarLlamadas():
+    def buscarDatosRtas(self):
         pass
 
-    def tomarSeleccionLlamada():
+    def tomarSeleccionSalida(self):
         pass
 
-    def buscarDatosRtas():
+    def finCU(self):
         pass
 
-    def tomarSeleccionSalida():
-        pass
-
-    def finCU():
-        pass
-
-    def generarCsv():
+    def generarCsv(self):
         pass

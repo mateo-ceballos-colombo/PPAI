@@ -62,9 +62,6 @@ def generarLlamadas(v, n):
 
         col = Llamada(descripcionOperador, detalleAccionRequerida, duracion, encuestaEnviada, observacionAuditor)
         v.append(col)
-    print()
-    print('Los datos se han cargado correctamente')
-    print()
 
 def write(col):
     print('')
@@ -80,7 +77,8 @@ def mostrar(vector):
         write(vector[i])
 
 
-n = 10
-llamadasDefinidas = []
-generarLlamadas(llamadasDefinidas, n)
-mostrar(llamadasDefinidas)
+if __name__ == '__main__':
+    n = 10
+    llamadasDefinidas = []
+    generarLlamadas(llamadasDefinidas, n)
+    mostrar(llamadasDefinidas)

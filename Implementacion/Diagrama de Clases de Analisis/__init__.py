@@ -2,13 +2,17 @@ import os
 
 import PantallaConsultarEncuesta
 import GestorConsultarEncuesta
+import Llamada
 
 def main():
-    os.system('cls')
+    # os.system('cls')
     
+    llamadas = []
+    Llamada.generarLlamadas(llamadas, 10)
+
     pantalla = PantallaConsultarEncuesta.PantallaConsultarEncuesta()
-    gestor = GestorConsultarEncuesta.GestorConsultarEncuesta(pantalla)
-    
+    gestor = GestorConsultarEncuesta.GestorConsultarEncuesta(pantalla, llamadas)
+
     pantalla.opcionConsultarEncuesta(gestor)
 
 if __name__ == "__main__":

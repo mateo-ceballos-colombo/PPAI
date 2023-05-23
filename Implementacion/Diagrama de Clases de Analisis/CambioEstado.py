@@ -12,7 +12,7 @@ import datetime
 import random
 
 class CambioEstado:
-    m_Estado= Estado()
+    
     def __init__(self, fechaHoraInicio, estado):
         self.fechaHoraInicio = fechaHoraInicio
         self.estado = estado
@@ -28,10 +28,11 @@ class CambioEstado:
         return self.fechaHoraInicio
 
     def getNombreEstado(self):
-        return self.getNombre() 
+        return self.estado.getNombre() 
 
     def new(self):
         pass
+
 
 def obtenerFechaRandom():
     anio_aleatorio = random.randint(1900, 2023)

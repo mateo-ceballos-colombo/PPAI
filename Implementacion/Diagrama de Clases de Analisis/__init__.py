@@ -8,7 +8,7 @@ def main():
     # os.system('cls')
     
     llamadas = []
-    Llamada.generarLlamadas(llamadas, 10)
+    Llamada.generarLlamadas(llamadas, 20)
 
     pantalla = PantallaConsultarEncuesta.PantallaConsultarEncuesta()
     gestor = GestorConsultarEncuesta.GestorConsultarEncuesta(pantalla, llamadas)
@@ -17,3 +17,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

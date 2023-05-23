@@ -15,11 +15,14 @@ class GestorConsultarEncuesta:
     pantallaConsultarEncuesta = None, 
     llamadas = [],
     fechaInicioPeriodo = datetime.now(), 
-    fechaFinPeriodo = datetime.now()):
+    fechaFinPeriodo = datetime.now(),
+    llamadasDePeriodo = []
+    ):
         self.pantalla = pantallaConsultarEncuesta
         self.llamadas = llamadas
         self.fechaInicioPeriodo = fechaInicioPeriodo
         self.fechaFinPeriodo = fechaFinPeriodo
+        self.llamadasDePeriodo = llamadasDePeriodo
 
     def nuevaConsultaEncuesta(self):
         self.pantalla.pedirPeriodo()
@@ -30,7 +33,13 @@ class GestorConsultarEncuesta:
         self.buscarLlamadas()
 
     def buscarLlamadas(self):
-        pass
+        '''
+        for llamada in self.llamadas:
+            if llamada.esDePeriodo(self.fechaInicioPeriodo, self.fechaFinPeriodo):
+                self.llamadasDePeriodo.append(llamada)
+        '''
+        # Cambiar llamadas por llamadas de periodo cuando este implementado
+        self.pantalla.pedirSeleccionLlamada(self.llamadas)
 
     def tomarSeleccionLlamada(self):
         pass

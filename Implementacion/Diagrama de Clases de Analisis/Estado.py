@@ -26,8 +26,14 @@ class Estado:
     def getNombre(self):
         return self.nombre
 
-def obtenerEstado():
-    arrayEstados = ['Iniciada', 'En Curso', 'Finalizada', 'Cancelada']
-    nombre = random.choice(arrayEstados)
-    estado1 = Estado(nombre)
-    return estado1
+class adhoc:
+    def obtenerEstado():
+        arrayEstados = ['Iniciada', 'En Curso', 'Finalizada', 'Cancelada']
+        nombre = random.choice(arrayEstados)
+        estado1 = Estado(nombre)
+        return estado1
+
+    def __str__(self):
+        r = ''
+        r += '{:<30}'.format("Nombre Estado: " + str(self.nombre))
+        return r

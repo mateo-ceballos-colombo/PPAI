@@ -21,8 +21,8 @@ class Cliente:
     def getNombre(self):
         return self.nombre_apellido
 
-
-def crearCliente(n):
+class adhoc:
+    def crearCliente(n):
         desc_nombres = ["Juan","Joaquin","Fabrizio", "Luciana","Matias","Mateo","Federico","Santiago","Lucia","Valentina","Victoria", "Ana", "María","Pedro","Josefina","Jose","Lucio","Patricia","Natalia"]
         desc_apellidos = ["Sposetti","Gonzalez", "Rodriguez", "Lopez", "Martinez", "Perez", "Gomez", "Sanchez", "Fernandez", "Torres", "Ramirez", "Hernandez", "Garcia", "Silva", "Rojas", "Moreno", "Navarro", "Cruz", "Ortega", "Vargas", "Mendoza"]
         vec_clientes = []
@@ -34,15 +34,16 @@ def crearCliente(n):
             vec_clientes.append(cliente)
         return vec_clientes
 
-def to_string(cliente):
-    cadena = "DNI: " + str(cliente.dni) + "\t" \
-             "nom y apellido: " + cliente.nombre_apellido + "\t" \
-             "numero: " + str(cliente.nrocelular) + "\t" 
-    return cadena
+    def __str__(self):
+        r = ''
+        r += '{:<30}'.format("DNI: " + str(self.dni))
+        r += '{:<30}'.format("Nombre y Apellido: " + self.tipo)
+        r += '{:<30}'.format("numero: " + str(self.nrocelular))
+        return r
 
-def mostrar_cliente(vector):
-    cadena = "cliente \n"
-    cadena += "=" * 80 + "\n"
-    for cliente in vector:
-        cadena += to_string(cliente) + "\n"
-    print(cadena)
+    def mostrar_cliente(vector):
+        cadena = "cliente \n"
+        cadena += "=" * 80 + "\n"
+        for cliente in vector:
+            cadena += print(cliente) + "\n"
+        print(cadena)

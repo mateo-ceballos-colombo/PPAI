@@ -12,17 +12,32 @@ import datetime
 import random
 
 class CambioEstado:
-    
-    def __init__(self, fechaHoraInicio, estado):
+    def __init__(self, fechaHoraInicio,fechaHoraFin, estado):
         self.fechaHoraInicio = fechaHoraInicio
+        self.fechaHoraFin = fechaHoraFin
         self.estado = estado
 
     def esEstadoInicial(self):
         if self.estado == 'Iniciada':
             return True
 
-    def esUltimoEstado(self):
-        pass
+    def esUltimoEstado(self,vector):
+        vueltas = 0
+        for cambio_estado in vector:
+            if vueltas == 0:
+                ultimo_cambio_estado == cambio_estado
+            elif cambio_estado.fechaHoraFin > ultimo_cambio_estado.fechaHoraFin:
+                ultimo_cambio_estado = cambio_estado
+            vultas += 1
+        return ultimo_cambio_estado
+    
+
+    def esUltimoEstado(self,cambio_incognita,vector):
+        for cambio_estado in vector:
+            if cambio_incognita.fechaHoraFin < cambio_estado.fechaHoraFin:
+                return False
+        return True
+
 
     def getFechaHoraInicio(self):
         return self.fechaHoraInicio
@@ -30,20 +45,30 @@ class CambioEstado:
     def getNombreEstado(self):
         return self.estado.getNombre() 
 
-    def new(self):
-        pass
+    def new(self, fechaHoraInicio, estado):
+        cambioEstado1 = CambioEstado(fechaHoraInicio, estado)
+        return cambioEstado1
 
+class adhoc:
+    def obtenerFechaRandom():
+        anio_aleatorio = random.randint(1900, 2023)
+        mes_aleatorio = random.randint(1, 12)
+        dia_aleatorio = random.randint(1, 30)
+        hora_aleatoria = random.randint(0, 23)
+        minuto_aleatorio = random.randint(0, 59)
+        segundo_aleatorio = random.randint(0, 59)
 
-def obtenerFechaRandom():
-    anio_aleatorio = random.randint(1900, 2023)
-    mes_aleatorio = random.randint(1, 12)
-    dia_aleatorio = random.randint(1, 30)
-    hora_aleatoria = random.randint(0, 23)
-    minuto_aleatorio = random.randint(0, 59)
-    segundo_aleatorio = random.randint(0, 59)
+        estado1 = Estado.obtenerEstado()
 
-    estado1 = Estado.obtenerEstado()
+        fechaRandom_inicio = datetime.datetime(anio_aleatorio, mes_aleatorio, dia_aleatorio, hora_aleatoria, minuto_aleatorio, segundo_aleatorio)
+        fechaRandom_fin = datetime.now()
+        cambioEstado1 = CambioEstado(fechaRandom_inicio, fechaRandom_fin, estado1)
+        return cambioEstado1
 
-    fechaRandom = datetime.datetime(anio_aleatorio, mes_aleatorio, dia_aleatorio, hora_aleatoria, minuto_aleatorio, segundo_aleatorio)
-    cambioEstado1 = CambioEstado(fechaRandom, estado1)
-    return cambioEstado1
+    def __str__(self):
+        r = ''
+        r += '{:<30}'.format("Fecha y Hora de Inicio " + str(self.fechaHoraInicio))
+        r += '{:<30}'.format("Fecha y Hora de Fin " + str(self.fechaHoraFin))
+        r += '{:<30}'.format("Estado: " + self.estado.getNombre())
+        r += '{:<30}'.format("numero: " + str(self.nrocelular))
+        return r

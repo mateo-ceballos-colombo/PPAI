@@ -1,19 +1,16 @@
-descripcionesGenerales = ['1 al 10', 'Si/No']
-valoresGenerales = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ['Si', 'No']]
+import random
+import RespuestaPosible
 
 class RespuestaPosible:
-    def init(self, des='', val=''):
+    def __init__(self, des='', val=''):
         self.descripcion = des
         self.valor = val
 
     def getDescripcionRta():
         return self.des
 
-import random
-
-descripcionesGenerales = ['1 al 10', 'Si/No']
-valoresGenerales = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ['Si', 'No']]
-
+# ~La clase adhoc es una clase auxiliar que se utiliza para generar respuestas posibles aleatorias
+# ~para las preguntas de la encuesta
 class adhoc:
     def generarRespuestas(v, n):
         descripcionesGenerales = ['1 al 10', 'Si/No']
@@ -26,25 +23,26 @@ class adhoc:
             else:
                 valoresGenerales = ['Si', 'No']
                 valor = random.choice(valoresGenerales)
+       
+            v[i] = RespuestaPosible(descripcion, valor)
 
-            col = RespuestaPosible(descripcion, valor)
-            v.append(col)
 
-def str(col):
+def string(col):
+    print('Descripción de la respuesta: ', col.descripcion)
+    print('Valor de la respuesta:', str(col.valor))
     print('')
-    print('Descripción de la pregunta: ' + col.descripcion + '\t')
-    print('Valor de la pregunta:' + str(col.valor) + '\t')
-    print('')
-
+    
 def mostrar(vector):
+    print('----Respuestas posibles----')
     for i in range(len(vector)):
-        str(vector[i])
+        print('Respuesta ', i + 1)
+        string(vector[i])
 
-def main(): 
+def main():
     n = 3
-    RespuestasDefinidas = []
+    RespuestasDefinidas = n * [None]
     adhoc.generarRespuestas(RespuestasDefinidas, n)
     mostrar(RespuestasDefinidas)
 
-if name == 'main':
+if __name__ == '__main__':
     main()

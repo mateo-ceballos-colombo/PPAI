@@ -2,32 +2,53 @@ import PySimpleGUI as GUI
 from datetime import datetime
 
 class PantallaConsultarEncuesta:
+    dateFormat = '%d/%m/%Y'
+
     # PySimpleGUI no permite utilizar 2 veces el mismo elemento de layout en dos windows distintos
     # Por lo que definimos un string y luego lo evaluamos para obtener cada vez un nuevo elemento
     def __init__(self,
                  gestorConsultarEncuesta=None,
                  btnConsultarEncuesta = "GUI.Button('Consultar Encuesta')",
                  btnCancelar = "GUI.Button('Cancelar')",
-                 txtFechaInicio = "GUI.InputText('Fecha Inicio: {}'.format(self.fechaInicio), disabled=True, key='txtFI')",
-                 calendarBtnFechaInicio = "GUI.CalendarButton(button_text='{:^19}'.format( \
-                     'Seleccionar Inicio'), key='BtnFI', target='txtFI', format='Fecha Inicio: %d/%m/%Y')",
-                 txtFechaFin = "GUI.InputText( \
-                     'Fecha Fin: {}'.format(self.fechaFin), disabled=True, key='txtFF')",
-                 calendarBtnFechaFin = "GUI.CalendarButton(button_text='{:^19}'.format( \
-                     'Seleccionar Fin'), key='BtnFI', target='txtFF', format='Fecha Fin: %d/%m/%Y')",
-                 btnBuscar = "GUI.Button('Buscar')"
+                 lblPeriodo = "GUI.Text('Ingrese el periodo de tiempo que desea consultar. \\nEl formato es DD/MM/AAAA. \\nTambien puede seleccionar del calendario.', justification='center')",
+                 lblFechaInicio = "GUI.Text('Fecha Inicio: ')",
+                 txtFechaInicio = "GUI.InputText(datetime.strftime(self.fechaInicio, self.dateFormat), disabled=False, key='txtFI', size = (15, 1))",
+                 calendarBtnFechaInicio = "GUI.CalendarButton(button_text='Calendario', \
+                     key='BtnFI', target='txtFI', format=self.dateFormat)",
+                 lblFechaFin = "GUI.Text('Fecha Fin: ')",
+                 txtFechaFin = "GUI.InputText(datetime.strftime(self.fechaFin, self.dateFormat), disabled=False, key='txtFF', size = (15, 1))",
+                 calendarBtnFechaFin = "GUI.CalendarButton(button_text='Calendario', \
+                    key='BtnFI', target='txtFF', format=self.dateFormat)",
+                 btnSiguiente = "GUI.Button('Siguiente')",
+                 btnVolver = "GUI.Button('Volver')",
+                 lblSeleccionLlamada = "GUI.Text('Seleccione una llamada: ')",
+                 lblSalida = "GUI.Text('Seleccione una salida: ')",
+                 radioBtnSalidaCSV = "GUI.Radio('CSV', 'salida', key='radioBtnCSV', default=True)",
+                 radioBtnSalidaImpresion = "GUI.Radio('Impresion', 'salida', key='radioBtnImpresion')",
+                 lblSeleccionImpresion = "GUI.Text('Seleccione una impresora: ')",
+                 comboImpresoras = "GUI.Combo(impresoras, default_value=impresoras[0], key='comboImpresoras', readonly=True)"
                  ):
         self.gestor = gestorConsultarEncuesta
         self.btnConsultarEncuesta = btnConsultarEncuesta
         self.btnCancel = btnCancelar
+        self.lblPeriodo = lblPeriodo
+        self.lblFechaInicio = lblFechaInicio
         self.txtFechaInicio = txtFechaInicio
-        self.txtFechaFin = txtFechaFin
         self.calendarBtnFechaInicio = calendarBtnFechaInicio
+        self.lblFechaFin = lblFechaFin
+        self.txtFechaFin = txtFechaFin
         self.calendarBtnFechaFin = calendarBtnFechaFin
-        self.btnBuscar = btnBuscar
+        self.btnSiguiente = btnSiguiente
+        self.btnVolver = btnVolver
+        self.lblSeleccionLlamada = lblSeleccionLlamada
+        self.lblSalida = lblSalida
+        self.radioBtnSalidaCSV = radioBtnSalidaCSV
+        self.radioBtnSalidaImpresion = radioBtnSalidaImpresion
+        self.lblSeleccionImpresion = lblSeleccionImpresion
+        self.comboImpresoras = comboImpresoras
 
-        self.fechaInicio = ''
-        self.fechaFin = ''
+        self.fechaInicio = datetime.now()
+        self.fechaFin = datetime.now()
 
     def opcionConsultarEncuesta(self, gestor):
         self.gestor = gestor
@@ -57,14 +78,16 @@ class PantallaConsultarEncuesta:
         window.close()
 
     def pedirPeriodo(self):
-        col1 = GUI.Column([[eval(self.txtFechaInicio)], [eval(self.txtFechaFin)]])
-        col2 = GUI.Column([[eval(self.calendarBtnFechaInicio)],
-                          [eval(self.calendarBtnFechaFin)]])
-        dateFrame = GUI.Frame('Periodo', [[col1, col2]])
+        col1 = GUI.Column([[eval(self.lblFechaInicio)], [eval(self.lblFechaFin)]])
+        col2 = GUI.Column([[eval(self.txtFechaInicio)], [eval(self.txtFechaFin)]])
+        col3 = GUI.Column([[eval(self.calendarBtnFechaInicio)], [eval(self.calendarBtnFechaFin)]])
+        dateFrame = GUI.Frame('Periodo', [
+            [GUI.Push(), eval(self.lblPeriodo), GUI.Push()], 
+            [col1, col2, col3]
+            ])
         layout = [
             [dateFrame],
-            [GUI.Push(), eval(self.btnBuscar)],
-            [GUI.Push(), eval(self.btnCancel)]
+            [GUI.Push(), eval(self.btnSiguiente), eval(self.btnCancel)]
         ]
 
         window = GUI.Window('Consultar Encuesta', layout, resizable=False)
@@ -72,17 +95,18 @@ class PantallaConsultarEncuesta:
         while True:
             event, values = window.read()
 
-            if event == 'Buscar':
-                if values['txtFI'] == 'Fecha Inicio: ' or values['txtFF'] == 'Fecha Fin: ':
-                    GUI.popup('Debe seleccionar un periodo', title='Error')
-                else:
-                    self.fechaInicio = datetime.strptime(values['txtFI'], 'Fecha Inicio: %d/%m/%Y')
-                    self.fechaFin = datetime.strptime(values['txtFF'], 'Fecha Fin: %d/%m/%Y').replace(hour=23, minute=59, second=59)
+            if event == 'Siguiente':
+                try:
+                    self.fechaInicio = datetime.strptime(values['txtFI'], self.dateFormat)
+                    self.fechaFin = datetime.strptime(values['txtFF'], self.dateFormat).replace(hour=23, minute=59, second=59)
+
                     if self.fechaInicio > self.fechaFin:
-                        GUI.popup('La fecha de inicio debe ser menor a la fecha de fin', title='Error')
+                        GUI.popup('La fecha de inicio debe ser anterior a la fecha de fin', title='Error')
                     else:
                         window.close()
                         self.tomarPeriodo()
+                except ValueError:
+                    GUI.popup('Debe seleccionar un periodo valido', title='Error')
 
             if event == GUI.WIN_CLOSED or event == 'Cancelar':
                 break
@@ -93,21 +117,14 @@ class PantallaConsultarEncuesta:
         self.gestor.tomarPeriodo(self.fechaInicio, self.fechaFin)
     
     def pedirSeleccionLlamada(self, llamadasAMostrar):
-        if type(self.fechaInicio) == datetime:
-            self.fechaInicio = self.fechaInicio.strftime('%d/%m/%Y')
-        if type(self.fechaFin) == datetime:
-            self.fechaFin = self.fechaFin.strftime('%d/%m/%Y')
-        col1 = GUI.Column([[eval(self.txtFechaInicio)], [eval(self.txtFechaFin)]])
-        col2 = GUI.Column([[eval(self.calendarBtnFechaInicio)],
-                          [eval(self.calendarBtnFechaFin)]])
-        dateFrame = GUI.Frame('Periodo', [[col1, col2]])
+        self.llamadasAMostrar = llamadasAMostrar
 
         toprow = ['Fila', 'Fecha Llamada']
         rows = []
-        for i in range(len(llamadasAMostrar)):
-            # Cambiar '12/12/12' por str(llamdasAMostrar[i]) cuando este implementado
+        for i in range(len(self.llamadasAMostrar)):
+            # HARDCODED
             rows.append([str(i + 1), '12/12/12'])
-        
+
         tbl = GUI.Table(values = rows, headings = toprow,
             key = 'tblLlamadas',
             num_rows = 10,
@@ -119,12 +136,79 @@ class PantallaConsultarEncuesta:
             enable_click_events = True,
             select_mode = GUI.TABLE_SELECT_MODE_BROWSE
             )
-
         layout = [
-            [dateFrame],
-            [GUI.Push(), eval(self.btnBuscar)],
-            [tbl],
-            [GUI.Push(), eval(self.btnCancel)]
+            [GUI.Frame('Llamadas', [[eval(self.lblSeleccionLlamada)], [tbl]])],
+            [GUI.Push(), eval(self.btnVolver), eval(self.btnSiguiente), eval(self.btnCancel)]
+        ]
+
+        window = GUI.Window('Consultar Encuesta', layout, resizable = False)
+
+        fila = None
+
+        while True:
+            event, values = window.read()
+
+            if event == 'Volver':
+                window.close()
+                self.pedirPeriodo()
+
+            if event == 'Siguiente':
+                if fila is None:
+                    GUI.popup('Debe seleccionar una llamada', title='Error')
+                else:
+                    window.close()
+                    self.tomarSeleccionLlamada(fila)
+
+            # La tabla genera el evento +CLICKED+ cuando se hace click en una celda
+            # El valor del evento es ('-TABLE-', '+CLICKED+', (fila, columna))
+            # Por lo tanto, se debe verificar que +CLICKED+ este en el evento,
+            # Pero antes se debe verificar que no sea None, para no intentar iterarlo
+            if event is not None and '+CLICKED+' in event:
+                fila = event[2][0]
+            
+            if event == GUI.WIN_CLOSED or event == 'Cancelar':
+                break
+
+        window.close()
+
+    def tomarSeleccionLlamada(self, indexLlamada):
+        self.gestor.tomarSeleccionLlamada(indexLlamada)
+
+    def pedirSeleccionSalida(self, nombreCliente, estadoActual, duracion, encuestaRealizada, preguntas):
+        self.nombreCliente = nombreCliente
+        self.estadoActual = estadoActual
+        self.duracion = duracion
+        self.encuestaRealizada = encuestaRealizada
+        self.preguntas = preguntas
+
+        toprow = ['Pregunta', 'Respuesta seleccionada']
+        rows = []
+        for i in range(len(preguntas)):
+            rows.append(preguntas[i])
+        
+        tbl = GUI.Table(values = rows, headings = toprow,
+            key = 'tblPreguntas',
+            num_rows = 3,
+            expand_x = True,
+            auto_size_columns = True,
+            display_row_numbers = False,
+            justification = 'left',
+            enable_events = True,
+            enable_click_events = True,
+            select_mode = GUI.TABLE_SELECT_MODE_NONE
+            )
+        encuestaFrame = GUI.Frame('Encuesta', [
+            [GUI.Text('Nombre cliente: {}'.format(nombreCliente))],
+            [GUI.Text('Estado actual: {}'.format(estadoActual))],
+            [GUI.Text('Duracion: {}'.format(duracion))],
+            [GUI.Text('Encuesta realizada: {}'.format(encuestaRealizada))],
+            [tbl]
+        ])
+        salidaFrame = GUI.Frame('Salida', [[eval(self.lblSalida), eval(self.radioBtnSalidaCSV), eval(self.radioBtnSalidaImpresion)]])
+        layout = [
+            [encuestaFrame],
+            [salidaFrame],
+            [GUI.Push(), eval(self.btnVolver), eval(self.btnSiguiente), eval(self.btnCancel)]
         ]
 
         window = GUI.Window('Consultar Encuesta', layout, resizable=False)
@@ -132,31 +216,57 @@ class PantallaConsultarEncuesta:
         while True:
             event, values = window.read()
 
-            if event == 'Buscar':
-                if values['txtFI'] == 'Fecha Inicio: ' or values['txtFF'] == 'Fecha Fin: ':
-                    GUI.popup('Debe seleccionar un periodo', title='Error')
-                else:
-                    fechaInicio = datetime.strptime(
-                        values['txtFI'], 'Fecha Inicio: %d/%m/%Y')
-                    fechaFin = datetime.strptime(
-                        values['txtFF'], 'Fecha Fin: %d/%m/%Y').replace(hour=23, minute=59, second=59)
-                    if fechaInicio > fechaFin:
-                        GUI.popup(
-                            'La fecha de inicio debe ser menor a la fecha de fin', title='Error')
-                    else:
-                        self.tomarPeriodo()
-                        window.close()
+            if event == 'Siguiente':
+                window.close()
+                if values['radioBtnCSV']:
+                    self.tomarSeleccionSalida('csv') 
+                elif values['radioBtnImpresion']:
+                    self.tomarSeleccionSalida('imprimir')
+
+            if event == 'Volver':
+                window.close()
+                self.pedirSeleccionLlamada(self.llamadasAMostrar)
 
             if event == GUI.WIN_CLOSED or event == 'Cancelar':
                 break
 
         window.close()
 
-    def tomarSeleccionLlamada(self):
-        pass
+    def tomarSeleccionSalida(self, seleccion):
+        if seleccion == 'csv':
+            GUI.popup('CSV Generado!', title='Consultar Encuesta')
+            self.gestor.tomarSeleccionCSV()
+        elif seleccion == 'imprimir':
+            self.gestor.tomarSeleccionImpresion()
 
-    def pedirSeleccionSalida(self):
-        pass
+    def pedirSeleccionImpresora(self, impresoras):
+        impresionFrame = GUI.Frame('Impresion', [
+            [eval(self.lblSeleccionImpresion)],
+            [eval(self.comboImpresoras)]
+            ])
 
-    def tomarSeleccionSalida(self):
-        pass
+        layout = [
+            [impresionFrame],
+            [GUI.Push(), eval(self.btnVolver), eval(self.btnSiguiente), eval(self.btnCancel)]
+        ]
+
+        window = GUI.Window('Consultar Encuesta', layout, resizable=False)
+
+        while True:
+            event, values = window.read()
+
+            if event == 'Volver':
+                window.close()
+                self.pedirSeleccionSalida(self.nombreCliente, self.estadoActual, self.duracion, self.encuestaRealizada, self.preguntas)
+            
+            if event == 'Siguiente':
+                window.close()
+                self.tomarSeleccionImpresora(values['comboImpresoras'])
+
+            if event == GUI.WIN_CLOSED or event == 'Cancelar':
+                break
+
+        window.close()
+
+    def tomarSeleccionImpresora(self, nombreImpresora):
+        self.gestor.imprimir(nombreImpresora)

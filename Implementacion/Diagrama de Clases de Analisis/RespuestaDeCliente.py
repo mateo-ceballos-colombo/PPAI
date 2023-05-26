@@ -10,7 +10,11 @@
 import RespuestaPosible
 
 class RespuestaDeCliente:
-    m_RespuestaPosible= RespuestaPosible()
+    def __init__(self, fechaEncuesta='', respuestaSeleccionada=None):
+        self.fechaEncuesta = feEnc
+        self.m_respuestaSeleccionada = rtaSel
 
     def getDescripcionRta():
-        pass
+        return self.descripcion
+
+

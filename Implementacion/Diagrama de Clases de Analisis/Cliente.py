@@ -10,7 +10,7 @@
 import random
 
 class Cliente:
-    def _init_(self,dni,nombre_apellido,nrocelular):
+    def __init__(self,dni,nombre_apellido,nrocelular):
         self.dni = dni
         self.nombre_apellido = nombre_apellido
         self.nrocelular = nrocelular
@@ -20,6 +20,14 @@ class Cliente:
 
     def getNombre(self):
         return self.nombre_apellido
+    
+    def __str__(self):
+        r = ''
+        r += '{:<30}'.format("DNI: " + str(self.dni))
+        r += '{:<30}'.format("Nombre y Apellido: " + self.nombre_apellido)
+        r += '{:<30}'.format("numero: " + str(self.nrocelular))
+        return r
+
 
 class adhoc:
     def crearCliente(n):
@@ -34,16 +42,12 @@ class adhoc:
             vec_clientes.append(cliente)
         return vec_clientes
 
-    def __str__(self):
-        r = ''
-        r += '{:<30}'.format("DNI: " + str(self.dni))
-        r += '{:<30}'.format("Nombre y Apellido: " + self.tipo)
-        r += '{:<30}'.format("numero: " + str(self.nrocelular))
-        return r
 
-    def mostrar_cliente(vector):
-        cadena = "cliente \n"
-        cadena += "=" * 80 + "\n"
-        for cliente in vector:
-            cadena += print(cliente) + "\n"
-        print(cadena)
+def main():
+    clientes = adhoc.crearCliente(10)
+    print(clientes[1])
+    print(clientes[1].getNombre())
+
+
+if __name__ == "__main__":
+    main()

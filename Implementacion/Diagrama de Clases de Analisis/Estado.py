@@ -25,6 +25,11 @@ class Estado:
     
     def getNombre(self):
         return self.nombre
+    
+    def __str__(self):
+        r = ''
+        r += '{:<30}'.format("Nombre Estado: " + str(self.nombre))
+        return r
 
 class adhoc:
     def obtenerEstado():
@@ -33,7 +38,12 @@ class adhoc:
         estado1 = Estado(nombre)
         return estado1
 
-    def __str__(self):
-        r = ''
-        r += '{:<30}'.format("Nombre Estado: " + str(self.nombre))
-        return r
+def main():
+    estado = adhoc.obtenerEstado()
+    print(estado)
+    print(estado.esFinalizada())
+    print(estado.getNombre())
+
+
+if __name__ == "__main__":
+    main()

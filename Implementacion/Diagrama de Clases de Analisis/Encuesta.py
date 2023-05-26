@@ -65,9 +65,6 @@ def main():
     generarEncuestaAleatoria(n, encuestas)
     mostrar(encuestas)
     
-    print('Nuevo test:')
-    mostrar(Encuesta.armarEncuesta())
-
 
 if __name__ == '__main__':
     main()

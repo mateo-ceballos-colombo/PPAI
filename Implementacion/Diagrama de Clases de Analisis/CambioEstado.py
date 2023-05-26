@@ -18,39 +18,34 @@ class CambioEstado:
         self.estado = estado
 
     def esEstadoInicial(self):
-        if self.estado == 'Iniciada':
+        if self.estado.getNombre() == 'Iniciada':
             return True
 
-    def esUltimoEstado(self,vector):
-        vueltas = 0
-        for cambio_estado in vector:
-            if vueltas == 0:
-                ultimo_cambio_estado == cambio_estado
-            elif cambio_estado.fechaHoraFin > ultimo_cambio_estado.fechaHoraFin:
-                ultimo_cambio_estado = cambio_estado
-            vultas += 1
-        return ultimo_cambio_estado
-    
-
-    def esUltimoEstado(self,cambio_incognita,vector):
-        for cambio_estado in vector:
-            if cambio_incognita.fechaHoraFin < cambio_estado.fechaHoraFin:
-                return False
-        return True
-
+    def esUltimoEstado(self):
+        if self.fechaHoraFin is None:
+            return True
+        else:
+            return False
 
     def getFechaHoraInicio(self):
         return self.fechaHoraInicio
 
     def getNombreEstado(self):
-        return self.estado.getNombre() 
+        return self.estado.getNombre()
 
     def new(self, fechaHoraInicio, estado):
         cambioEstado1 = CambioEstado(fechaHoraInicio, estado)
         return cambioEstado1
+    
+    def __str__(self):
+        r = ''
+        r += '{:<50}'.format("Fecha y Hora de Inicio " + str(self.fechaHoraInicio))
+        r += '{:<50}'.format("Fecha y Hora de Fin " + str(self.fechaHoraFin))
+        r += '{:<50}'.format(" Estado:" + self.estado.getNombre())
+        return r
 
 class adhoc:
-    def obtenerFechaRandom():
+    def crear_cambio_estado(esUltimoestado):
         anio_aleatorio = random.randint(1900, 2023)
         mes_aleatorio = random.randint(1, 12)
         dia_aleatorio = random.randint(1, 30)
@@ -58,17 +53,27 @@ class adhoc:
         minuto_aleatorio = random.randint(0, 59)
         segundo_aleatorio = random.randint(0, 59)
 
-        estado1 = Estado.obtenerEstado()
+        estado1 = Estado.adhoc.obtenerEstado()
 
         fechaRandom_inicio = datetime.datetime(anio_aleatorio, mes_aleatorio, dia_aleatorio, hora_aleatoria, minuto_aleatorio, segundo_aleatorio)
-        fechaRandom_fin = datetime.now()
+        if esUltimoestado:
+            fechaRandom_fin = None
+        else:
+            fechaRandom_fin = datetime.datetime.now()
         cambioEstado1 = CambioEstado(fechaRandom_inicio, fechaRandom_fin, estado1)
         return cambioEstado1
 
-    def __str__(self):
-        r = ''
-        r += '{:<30}'.format("Fecha y Hora de Inicio " + str(self.fechaHoraInicio))
-        r += '{:<30}'.format("Fecha y Hora de Fin " + str(self.fechaHoraFin))
-        r += '{:<30}'.format("Estado: " + self.estado.getNombre())
-        r += '{:<30}'.format("numero: " + str(self.nrocelular))
-        return r
+    
+def main():
+    vec = []
+    for i in range(5):
+        estados = [True, False]
+        selec = random.choice(estados)
+        cm = adhoc.crear_cambio_estado(selec)
+        vec.append(cm)
+    print(vec[1])
+    print(vec[1].esUltimoEstado())
+    
+
+if __name__ == "__main__":
+    main()

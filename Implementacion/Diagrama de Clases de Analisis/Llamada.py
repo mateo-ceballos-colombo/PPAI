@@ -1,4 +1,7 @@
 import random
+from Cliente import Cliente, adhoc
+import datetime as dt
+import GestorConsultarEncuesta as gestor
 
 class Llamada:
     def __init__(self, descripcionOperador, detalleAccionRequerida, duracion, encuestaEnviada, observacionAuditor):
@@ -8,38 +11,45 @@ class Llamada:
         self.encuestaEnviada = encuestaEnviada
         self.observacionAuditor = observacionAuditor
     
-    def calcularDuracion():
+    def calcularDuracion(self):
         pass
 
-    def esDePeriodo():
+    def esDePeriodo(self, fechaInicio, fechaFin):
+        #g = ''
+        #fecha_actual = dt.datetime.now()
+        #if fecha_actual >= fechaInicio and fecha_actual <= fechaFin:
+        #    return True
         pass
 
-    def getDuracion():
+    def getDuracion(self):
+        return self.duracion
+
+    def getNombreClienteDeLlamada(self):
+        cliente = Cliente()
+        return cliente.getNombre()
+
+    def new(self):
+        llamada = [None]
+        generarLlamadas(llamada, 1)
+        return llamada
+
+    def getRespuestas(self):
         pass
 
-    def getNombreClienteDeLlamada():
+    def setDescripcionOperador(self):
         pass
 
-    def new():
+    def setDuracion(self):
         pass
 
-    def getRespuestas():
+    def setEstadoActual(self):
         pass
 
-    def setDescripcionOperador():
+    def tieneRta(self):
         pass
 
-    def setDuracion():
-        pass
-
-    def setEstadoActual():
-        pass
-
-    def tieneRta():
-        pass
-
-    def getLlamada():
-        pass
+    def getLlamada(self):
+        return self
 
     def getEstadoActual():
         pass
@@ -82,3 +92,4 @@ if __name__ == '__main__':
     llamadasDefinidas = []
     generarLlamadas(llamadasDefinidas, n)
     mostrar(llamadasDefinidas)
+    #Llamada.getNombreClienteDeLlamada(llamadasDefinidas[0])

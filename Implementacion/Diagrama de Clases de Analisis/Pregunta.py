@@ -59,10 +59,10 @@ class adhoc:
 
             for preguntaBool in preguntasRandomBool:
                 if preguntaRandom == preguntaBool:
-                    respuestas = adhocRespuestaPosible.getRtas1Al10()
+                    respuestas = adhocRespuestaPosible.getRtasSiNo()
             for preguntaNumerica in preguntasRandomNros:
                 if preguntaRandom == preguntaNumerica:
-                    respuestas = adhocRespuestaPosible.getRtasSiNo()
+                    respuestas = adhocRespuestaPosible.getRtas1Al10()
 
             preguntas[i] = Pregunta(preguntaRandom, respuestas)
         

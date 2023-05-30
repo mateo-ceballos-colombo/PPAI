@@ -56,12 +56,14 @@ def test():
         n = int(input('Ingrese la cantidad de preguntas a generar (3 o menos): '))
     
     preguntas = adhoc.generarPreguntasAleatorias(n)
+    print('----Preguntas----')
     for i in range(n):
         print('Pregunta:', i + 1)
         print('Descripción:', preguntas[i].pregunta)
         print('Respuestas posibles:')
         for respuesta in preguntas[i].respuestas:
-           print(respuesta.getDescripcionRta())
+           print('- ' + respuesta.getDescripcionRta())
+        print('---------------------------------')
         #print(preguntas.m_respuestaPosible.getDescripcionRta(preguntas[i].m_respuestaPosible[0]))
 
 if __name__ == '__main__':

@@ -40,10 +40,10 @@ class adhoc:
 
             for preg1 in preguntasRandomBool:
                 if preguntaRandom == preg1:
-                    respuestaPosible = rtaPosibleadhoc.generarRespuestas(1, 1)
+                    respuestaPosible = rtaPosibleadhoc.generarRespuestas1Al10(1, 1)
             for preg2 in preguntasRandomNros:
                 if preguntaRandom == preg2:
-                    respuestaPosible = rtaPosibleadhoc.generarRespuestas(1, 0)
+                    respuestaPosible = rtaPosibleadhoc.generarRespuestas1Al10(1, 0)
 
             preguntas[i] = Pregunta(preguntaRandom, respuestaPosible)
         

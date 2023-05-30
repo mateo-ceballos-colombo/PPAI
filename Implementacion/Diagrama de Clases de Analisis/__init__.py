@@ -10,7 +10,7 @@ def main():
 
     adhocLlamadas = Llamada.adhoc()
     llamadasRandom = []
-    for i in range(50):
+    for i in range(100):
         llamadaRandom = adhocLlamadas.generarLlamadaRandom()
         llamadasRandom.append(llamadaRandom)
 

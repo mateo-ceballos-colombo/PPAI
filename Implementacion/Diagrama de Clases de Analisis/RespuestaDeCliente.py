@@ -4,7 +4,6 @@ import RespuestaPosible
 class RespuestaDeCliente:
     def __init__(self, fechaEncuesta='', respuestaSeleccionada=None):
         self.fechaEncuesta = fechaEncuesta
-
         self.m_respuestaSeleccionada = respuestaSeleccionada
 
     def getDescripcionRta(self):

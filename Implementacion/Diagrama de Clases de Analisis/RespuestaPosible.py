@@ -17,29 +17,33 @@ class RespuestaPosible:
 # La clase adhoc es una clase auxiliar que se utiliza para generar respuestas posibles aleatorias
 # para las preguntas de la encuesta
 class adhoc:
-    def generarRespuestas(self, n, tipoPregunta):
-        descripcionesGenerales = ['1 al 10', 'Si/No']
-        valoresGenerales = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ['Si', 'No']]
+    def generarRespuestas1Al10(self):
+        descrip = '1 al 10'
+        rtasPosibles = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         respuestas = []
-        for i in range(n):
-            descripcion = descripcionesGenerales[tipoPregunta]
-            valor = random.choice(valoresGenerales[tipoPregunta])
-
-            respuestas.append(RespuestaPosible(descripcion, valor))
+        for rtaPosible in rtasPosibles:
+            respuestas.append(RespuestaPosible(descrip, rtaPosible))
 
         return respuestas
-
-    def mostrar(self, vector):
-        print('----Respuestas posibles----')
-        for i in range(len(vector)):
-            print('Respuesta', i + 1)
-            print(vector[i])
+    
+    def generarRespuestasSiNo(self):
+        descrip = 'Si/No'
+        rtas = ['Si', 'No']
+        respuestas = []
+        for rta in rtas:
+            respuestas.append(RespuestaPosible(descrip, rta))
+        
+        return respuestas
 
 def main():
-    n = 3
     adhocRespuestaPosible = adhoc()
-    respuestasGeneradas = adhocRespuestaPosible.generarRespuestas(n, 0)
-    adhocRespuestaPosible.mostrar(respuestasGeneradas)
+
+    rtas1Al10 = adhocRespuestaPosible.generarRespuestas1Al10()
+    for rta1Al10 in rtas1Al10:
+        print(rta1Al10)
+    rtasSiNo = adhocRespuestaPosible.generarRespuestasSiNo()
+    for rtaSiNo in rtasSiNo:
+        print(rtaSiNo)
 
 if __name__ == '__main__':
     main()

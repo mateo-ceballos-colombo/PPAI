@@ -57,10 +57,13 @@ class GestorConsultarEncuesta:
 
         self.pantalla.pedirSeleccionLlamada(fechasLlamadas)
 
-    def tomarSeleccionLlamada(self, indexLlamada):
+    def buscarDatosLlamada(self, indexLlamada):
         self.nombreClienteDeLlamada = self.llamadasDePeriodo[indexLlamada].getNombreClienteDeLlamada()
         self.estadoLlamada = self.llamadasDePeriodo[indexLlamada].getEstadoActual()
         self.duracionLlamada = self.llamadasDePeriodo[indexLlamada].getDuracion()
+
+    def tomarSeleccionLlamada(self, indexLlamada):
+        self.buscarDatosLlamada(indexLlamada)
         # HARDCODED
         self.preguntasYRtasSeleccionadas = [['Pregunta 1', 'Respuesta 1'], ['Pregunta 2', 'Respuesta 2'], ['Pregunta 3', 'Respuesta 3']]
         self.pantalla.pedirSeleccionSalida(

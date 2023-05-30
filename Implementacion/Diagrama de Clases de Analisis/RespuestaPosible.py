@@ -20,6 +20,10 @@ class RespuestaPosible:
 # La clase adhoc es una clase auxiliar que se utiliza para generar respuestas posibles aleatorias
 # para las preguntas de la encuesta
 class adhoc:
+    def __init__(self):
+        self.respuestas1Al10 = self.generarRespuestas1Al10()
+        self.respuestasSiNo = self.generarRespuestasSiNo()
+
     def generarRespuestas1Al10(self):
         descrip = '1 al 10'
         rtasPosibles = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -37,6 +41,12 @@ class adhoc:
             respuestas.append(RespuestaPosible(descrip, rta))
         
         return respuestas
+    
+    def getRtas1Al10(self):
+        return self.respuestas1Al10
+    
+    def getRtasSiNo(self):
+        return self.respuestasSiNo
 
 def main():
     adhocRespuestaPosible = adhoc()

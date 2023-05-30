@@ -15,6 +15,9 @@ class Pregunta:
             respuestasPosibles.append(str(self.respuestas[i].getValorRta()))
         return respuestasPosibles
     
+    def getRtas(self):
+        return self.respuestas
+
     def __str__(self):
         r = ''
         r += '{:<50}\n'.format('Descripción de la pregunta: ' + self.pregunta)
@@ -25,7 +28,10 @@ class Pregunta:
         return r
 
 class adhoc:
-    def generarPreguntasAleatorias(self, cantidadPreguntas):
+    def __init__(self, respuestasPosibles = RespuestaPosible.adhoc()):
+        self.respuestasPosibles = respuestasPosibles
+
+    def generarPreguntasAleatorias(self, cantidadPreguntas, adhocRespuestaPosible = None):
         preguntasRandomBool = [
             '¿Le gustó la atención?',
             '¿Nos recomendaría a otras personas?',
@@ -42,9 +48,10 @@ class adhoc:
 
         preguntasRandom = preguntasRandomBool + preguntasRandomNros
 
-        rtaPosibleadhoc = RespuestaPosible.adhoc()
-
         preguntas = cantidadPreguntas * [None]
+
+        if adhocRespuestaPosible is None:
+            adhocRespuestaPosible = RespuestaPosible.adhoc()
 
         for i in range(cantidadPreguntas):
             preguntaRandom = random.choice(preguntasRandom)
@@ -52,10 +59,10 @@ class adhoc:
 
             for preguntaBool in preguntasRandomBool:
                 if preguntaRandom == preguntaBool:
-                    respuestas = rtaPosibleadhoc.generarRespuestasSiNo()
+                    respuestas = adhocRespuestaPosible.getRtas1Al10()
             for preguntaNumerica in preguntasRandomNros:
                 if preguntaRandom == preguntaNumerica:
-                    respuestas = rtaPosibleadhoc.generarRespuestas1Al10()
+                    respuestas = adhocRespuestaPosible.getRtasSiNo()
 
             preguntas[i] = Pregunta(preguntaRandom, respuestas)
         

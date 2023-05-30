@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import Cliente
 import CambioEstado
 import RespuestaDeCliente
+import Encuesta
 
 class Llamada:
     def __init__(
@@ -55,7 +56,7 @@ class Llamada:
         return self.cliente.getNombre()
     
     def getRespuestas(self):
-        pass
+        return self.respuestasDeEncuesta
 
     def setDescripcionOperador(self):
         pass
@@ -87,6 +88,9 @@ class Llamada:
         return r
 
 class adhoc:
+    def __init__(self, encuesta = Encuesta.adhoc().generarEncuestasAleatorias(1)[0]):
+        self.encuesta = encuesta
+
     def generarLlamadaRandom(self):
         desc = ['Ofrecimiento de reembolso o crédito para compensar cualquier cargo adicional.',
                 'Asistencia técnica para resolver problemas de velocidad de conexión.',
@@ -103,9 +107,16 @@ class adhoc:
         clienteRandom = Cliente.adhoc().obtenerClienteRandom()
         cambiosEstadoRandom = CambioEstado.adhoc().obtenerCambiosEstado(index = random.randint(0, 3))
 
+        fechaHoraFin = datetime.now()
+        for cambioEstado in cambiosEstadoRandom:
+            if cambioEstado.esUltimoEstado():
+                fechaHoraFin = cambioEstado.getFechaHoraFin()
+        rtasDeCliente = RespuestaDeCliente.adhoc().generarRtasCliente(fechaHoraFin, self.encuesta)
+        
+
         llamadaRandom = Llamada(
             descripcionOperadorRandom, detalleAccionRequeridaRandom, encuestaEnviada, observacionAuditor,
-            cliente = clienteRandom, cambiosEstado = cambiosEstadoRandom)
+            respuestasDeEncuesta = rtasDeCliente, cliente = clienteRandom, cambiosEstado = cambiosEstadoRandom)
 
         return llamadaRandom
 

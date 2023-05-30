@@ -17,17 +17,22 @@ class RespuestaDeCliente:
         return r
 
 class adhoc:
-    def generarRtaCliente(self, n):
-        respuestas = []
-        for i in range(n):
-            fechaEncuesta = FechaYHora.obtenerFechaHoraRandom()
-            #respuestaSeleccionada = random.choice(RespuestaPosible.)
+    def generarRtasCliente(self, fechaEncuesta, encuesta):
+        rtasPosibles = []
+        rtasGeneradas = []
+        for pregunta in encuesta.getPreguntas():
+            for rtaPosible in pregunta.getRtas():
+                rtasPosibles.append(rtaPosible)
+            rtasGeneradas.append(random.choice(rtasPosibles))
+            rtasPosibles = []
+        
+        rtasDeCliente = []
+        for rtaGenerada in rtasGeneradas:
+            rtasDeCliente.append(RespuestaDeCliente(fechaEncuesta, rtaGenerada))
+        return rtasDeCliente
 
-def main():
-    n = 3
-    adhocRespuestaPosible = adhoc()
-    respuestasGeneradas = adhocRespuestaPosible.generarRespuestas(n, 0)
-    adhocRespuestaPosible.mostrar(respuestasGeneradas)
+def test():
+    pass
 
 if __name__ == '__main__':
-    main()
+    test()

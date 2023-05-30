@@ -17,7 +17,7 @@ class Encuesta:
         pass
 
     def esVigente(self):
-        if self.fechaFinVigencia > dt.datetime.now():
+        if self.fechaFinVigencia > datetime.now():
             return True
         return False
 
@@ -34,19 +34,28 @@ class Encuesta:
             r += '\n'
         return r
 
+    def getPreguntas(self):
+        return self.preguntas
+
 class adhoc:
     descrip = ['Encuesta de satisfaccion', 'Encuesta de calidad', 'Encuesta de servicio', 
     'Encuesta de producto', 'Encuesta de atencion al cliente', 'Encuesta de atencion al publico']
 
-    def generarEncuestasAleatorias(self, cantidadEncuestas):
+    def __init__(self, adhocPreguntas = Pregunta.adhoc()):
+        self.adhocPreguntas = adhocPreguntas
+
+    def generarEncuestasAleatorias(self, cantidadEncuestas, adhocPreguntas = None):
 
         encuestas = cantidadEncuestas * [None]
+
+        if adhocPreguntas is None:
+            adhocPreguntas = Pregunta.adhoc()
 
         for i in range(cantidadEncuestas):
             descripcion = random.choice(self.descrip)
             randomDate = FechaYHora.obtenerFechaHoraRandom(endDate=datetime(2030, 12, 31))
             # Se debe generar 2 o 3 preguntas aleatorias para cada encuesta
-            preguntasRandom = Pregunta.adhoc().generarPreguntasAleatorias(rnd.randint(2, 3))
+            preguntasRandom = adhocPreguntas.generarPreguntasAleatorias(rnd.randint(2, 3))
             encuestas[i] = Encuesta(descripcion, randomDate, preguntasRandom)
         
         return encuestas

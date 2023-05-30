@@ -1,5 +1,6 @@
 import random
 import RespuestaPosible
+import copy
 
 class Pregunta:
     def __init__(self, preg='', resp=None):
@@ -49,10 +50,10 @@ class adhoc:
     def generarPreguntas(self):
         preguntas = []
         for pregunta in self.preguntasRandomBool:
-            respuestas = self.respuestasPosibles.getRtasSiNo()
+            respuestas = copy.deepcopy(self.respuestasPosibles.getRtasSiNo())
             preguntas.append(Pregunta(pregunta, respuestas))
         for pregunta in self.preguntasRandomNros:
-            respuestas = self.respuestasPosibles.getRtas1Al10()
+            respuestas = copy.deepcopy(self.respuestasPosibles.getRtas1Al10())
             preguntas.append(Pregunta(pregunta, respuestas))
 
         return preguntas

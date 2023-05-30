@@ -14,11 +14,11 @@ def main():
     adhocRtasPosibles = RespuestaPosible.adhoc()
     adhocPreguntas = Pregunta.adhoc(adhocRtasPosibles)
     adhocEncuestas = Encuesta.adhoc(adhocPreguntas)
-    encuestasRandom = adhocEncuestas.generarEncuestasAleatorias(5)
+    encuestasRandom = adhocEncuestas.generarEncuestasAleatorias(100)
 
     adhocLlamadas = Llamada.adhoc()
     llamadasRandom = []
-    for i in range(5):
+    for i in range(100):
         llamadaRandom = adhocLlamadas.generarLlamadaRandom(encuestasRandom[i])
         llamadasRandom.append(llamadaRandom)
 

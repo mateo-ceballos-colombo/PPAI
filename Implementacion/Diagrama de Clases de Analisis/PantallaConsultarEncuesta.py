@@ -92,7 +92,7 @@ class PantallaConsultarEncuesta:
             [dateFrame],
             [GUI.Push(), eval(self.btnSiguiente), eval(self.btnCancel)]
         ]
-
+        
         window = GUI.Window('Consultar Encuesta', layout, resizable=False)
 
         while True:
@@ -205,7 +205,7 @@ class PantallaConsultarEncuesta:
             [GUI.Text('Duracion: {}'.format(duracion))],
             [GUI.Text('Encuesta realizada: {}'.format(encuestaRealizada))],
             [tbl]
-        ])
+        ], size=(900,225))
         salidaFrame = GUI.Frame('Salida', [[eval(self.lblSalida), eval(self.radioBtnSalidaCSV), eval(self.radioBtnSalidaImpresion)]])
         layout = [
             [encuestaFrame],

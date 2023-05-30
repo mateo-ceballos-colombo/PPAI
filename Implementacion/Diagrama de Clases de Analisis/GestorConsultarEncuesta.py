@@ -69,13 +69,14 @@ class GestorConsultarEncuesta:
         self.preguntasYRtasSeleccionadas = []
 
         preguntas = []
+        self.descripcionEncuesta = ''
         for encuesta in self.encuestas:
             for pregunta in encuesta.getPreguntas():
                 for respuestasEncuesta in pregunta.getRtas():
                     for respuestaSeleccionada in respuestas:
                         if respuestasEncuesta == respuestaSeleccionada.getRespuestaSeleccionada():
                             preguntas.append(pregunta.getDescripcion())
-                            print(encuesta)
+                            self.descripcionEncuesta = encuesta.getDescripcionEncuesta()
                             
         for i in range(len(respuestas)):
             self.preguntasYRtasSeleccionadas.append([preguntas[i], respuestas[i].getDescripcionRta()])
@@ -84,7 +85,7 @@ class GestorConsultarEncuesta:
             self.nombreClienteDeLlamada, 
             self.estadoLlamada, 
             self.duracionLlamada, 
-            '(encuesta realizada)', 
+            self.descripcionEncuesta, 
             self.preguntasYRtasSeleccionadas)
 
     def buscarDatosRtas(self):

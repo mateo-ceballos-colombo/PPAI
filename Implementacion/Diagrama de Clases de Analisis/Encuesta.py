@@ -2,6 +2,7 @@ import Pregunta
 import random
 from datetime import datetime
 import FechaYHora
+import copy
 
 class Encuesta:
     def __init__(self, descripcion='', fechaFinVigencia='', preguntas=None):
@@ -54,7 +55,7 @@ class adhoc:
             descripcion = random.choice(self.descrip)
             randomDate = FechaYHora.obtenerFechaHoraRandom(endDate=datetime(2030, 12, 31))
             # Se debe generar 2 o 3 preguntas aleatorias para cada encuesta
-            preguntasRandom = adhocPreguntas.obtenerPreguntasAleatorias(random.randint(2, 3))
+            preguntasRandom = copy.deepcopy(adhocPreguntas.obtenerPreguntasAleatorias(random.randint(2, 3)))
             encuestas[i] = Encuesta(descripcion, randomDate, preguntasRandom)
         
         return encuestas

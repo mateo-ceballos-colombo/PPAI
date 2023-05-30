@@ -8,17 +8,30 @@ from glob import glob
 
 class GestorConsultarEncuesta:
     def __init__(self, 
-    pantallaConsultarEncuesta = None, 
+    pantalla = None, 
     llamadas = [],
+    encuestas = [],
     fechaInicioPeriodo = datetime.now(), 
     fechaFinPeriodo = datetime.now(),
-    llamadasDePeriodo = []
+    llamadasDePeriodo = [],
+    nombreClienteDeLlamada = '',
+    estadoLlamada = None,
+    duracionLlamada = 0,
+    preguntasYRtasSeleccionadas = [],
+    descripcionEncuesta = ''
     ):
-        self.pantalla = pantallaConsultarEncuesta
+        self.pantalla = pantalla
         self.llamadas = llamadas
+        self.encuestas = encuestas
+
         self.fechaInicioPeriodo = fechaInicioPeriodo
         self.fechaFinPeriodo = fechaFinPeriodo
         self.llamadasDePeriodo = llamadasDePeriodo
+        self.nombreClienteDeLlamada = nombreClienteDeLlamada
+        self.estadoLlamada = estadoLlamada
+        self.duracionLlamada = duracionLlamada
+        self.preguntasYRtasSeleccionadas = preguntasYRtasSeleccionadas
+        self.descripcionEncuesta = descripcionEncuesta
 
     def setPantalla(self, pantallaConsultarEncuesta):
         self.pantalla = pantallaConsultarEncuesta
@@ -49,13 +62,13 @@ class GestorConsultarEncuesta:
         self.estadoLlamada = self.llamadasDePeriodo[indexLlamada].getEstadoActual()
         self.duracionLlamada = self.llamadasDePeriodo[indexLlamada].getDuracion()
         # HARDCODED
-        self.preguntasYRtas = [['Pregunta 1', 'Respuesta 1'], ['Pregunta 2', 'Respuesta 2'], ['Pregunta 3', 'Respuesta 3']]
+        self.preguntasYRtasSeleccionadas = [['Pregunta 1', 'Respuesta 1'], ['Pregunta 2', 'Respuesta 2'], ['Pregunta 3', 'Respuesta 3']]
         self.pantalla.pedirSeleccionSalida(
             self.nombreClienteDeLlamada, 
             self.estadoLlamada, 
             self.duracionLlamada, 
             '(encuesta realizada)', 
-            self.preguntasYRtas)
+            self.preguntasYRtasSeleccionadas)
 
     def buscarDatosRtas(self):
         pass
@@ -79,7 +92,11 @@ class GestorConsultarEncuesta:
         fileDir = 'temp.txt'
         # HARDCODED
         f = open('temp.txt', 'w+t')
-        f.write('test 2')
+
+        f.write('{}, {}, {}\n'.format(self.nombreClienteDeLlamada, self.estadoLlamada, self.duracionLlamada))
+        for i in range (len(self.preguntasYRtasSeleccionadas)):
+            f.write('{}, {}\n'.format(self.preguntasYRtasSeleccionadas[i][0], self.preguntasYRtasSeleccionadas[i][1]))
+
         f.close()
 
         # Print the txt file
@@ -92,7 +109,7 @@ class GestorConsultarEncuesta:
     def generarCsv(self):
         # HARDCODED
         row_list = [[self.nombreClienteDeLlamada, self.estadoLlamada, self.duracionLlamada]]
-        for preguntaYRta in self.preguntasYRtas:
+        for preguntaYRta in self.preguntasYRtasSeleccionadas:
             row_list.append(preguntaYRta)
 
         with open('temp.csv', 'w', newline='') as file:

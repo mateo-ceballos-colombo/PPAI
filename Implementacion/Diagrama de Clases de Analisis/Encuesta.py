@@ -3,7 +3,7 @@ import Pregunta
 import random
 import random as rnd
 import datetime as dt
-import CambioEstado
+import FechaYHora
 
 class Encuesta:
     def __init__(self, des='', fec='', preg=None):
@@ -40,7 +40,7 @@ def generarEncuestaAleatoria(cantidadEncuestas, encuestas):
         encuestas[i].descripcion = random.choice(descrip)
         """ current_year = dt.datetime.now().year
         random_date = dt.date(rnd.randint(current_year, (current_year + 10)), rnd.randint(1, 12), rnd.randint(1, 28)) """
-        random_date = CambioEstado.adhoc().obtenerFechaHoraRandom()
+        random_date = FechaYHora.obtenerFechaHoraRandom()
         encuestas[i].fechaFinVigencia = random_date
         # Sobre la siguiente linea: se debe generar 2 o 3 preguntas aleatorias para cada encuesta
         encuestas[i].m_Pregunta = Pregunta.adhoc.generarPreguntasAleatorias(rnd.randint(2, 3))

@@ -88,10 +88,10 @@ class Llamada:
         return r
 
 class adhoc:
-    def __init__(self, encuesta = Encuesta.adhoc().generarEncuestasAleatorias(1)[0]):
-        self.encuesta = encuesta
+    def __init__(self):
+        pass
 
-    def generarLlamadaRandom(self):
+    def generarLlamadaRandom(self, encuesta = Encuesta.adhoc().generarEncuestasAleatorias(1)[0]):
         desc = ['Ofrecimiento de reembolso o crédito para compensar cualquier cargo adicional.',
                 'Asistencia técnica para resolver problemas de velocidad de conexión.',
                 'Aclaración de las políticas de cancelación', 'Aclaración de las políticas de de cambio de servicio.',
@@ -111,8 +111,9 @@ class adhoc:
         for cambioEstado in cambiosEstadoRandom:
             if cambioEstado.esUltimoEstado():
                 fechaHoraFin = cambioEstado.getFechaHoraFin()
-        rtasDeCliente = RespuestaDeCliente.adhoc().generarRtasCliente(fechaHoraFin, self.encuesta)
+        rtasDeCliente = RespuestaDeCliente.adhoc().generarRtasCliente(fechaHoraFin, encuesta)
         
+
 
         llamadaRandom = Llamada(
             descripcionOperadorRandom, detalleAccionRequeridaRandom, encuestaEnviada, observacionAuditor,

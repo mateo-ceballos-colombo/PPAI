@@ -65,7 +65,21 @@ class GestorConsultarEncuesta:
     def tomarSeleccionLlamada(self, indexLlamada):
         self.buscarDatosLlamada(indexLlamada)
         # HARDCODED
-        self.preguntasYRtasSeleccionadas = [['Pregunta 1', self.llamadasDePeriodo[indexLlamada].getRespuestas()[0]], ['Pregunta 2', 'Respuesta 2'], ['Pregunta 3', 'Respuesta 3']]
+        respuestas = self.llamadasDePeriodo[indexLlamada].getRespuestas()
+        self.preguntasYRtasSeleccionadas = []
+
+        preguntas = []
+        for encuesta in self.encuestas:
+            for pregunta in encuesta.getPreguntas():
+                for respuestasEncuesta in pregunta.getRtas():
+                    for respuestaSeleccionada in respuestas:
+                        if respuestasEncuesta == respuestaSeleccionada.getRespuestaSeleccionada():
+                            preguntas.append(pregunta.getDescripcion())
+                            print(encuesta)
+                            
+        for i in range(len(respuestas)):
+            self.preguntasYRtasSeleccionadas.append([preguntas[i], respuestas[i].getDescripcionRta()])
+
         self.pantalla.pedirSeleccionSalida(
             self.nombreClienteDeLlamada, 
             self.estadoLlamada, 

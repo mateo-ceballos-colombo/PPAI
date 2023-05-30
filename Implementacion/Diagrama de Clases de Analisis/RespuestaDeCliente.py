@@ -6,10 +6,13 @@ import random
 class RespuestaDeCliente:
     def __init__(self, fechaEncuesta='', respuestaSeleccionada=None):
         self.fechaEncuesta = fechaEncuesta
-        self.m_respuestaSeleccionada = respuestaSeleccionada
+        self.respuestaSeleccionada = respuestaSeleccionada
 
     def getDescripcionRta(self):
-        return self.descripcion
+        return self.respuestaSeleccionada.getValorRta()
+    
+    def getRespuestaSeleccionada(self):
+        return self.respuestaSeleccionada
     
     def __str__(self):
         r = ''

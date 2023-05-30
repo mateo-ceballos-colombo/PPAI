@@ -14,17 +14,16 @@ def main():
     adhocRtasPosibles = RespuestaPosible.adhoc()
     adhocPreguntas = Pregunta.adhoc(adhocRtasPosibles)
     adhocEncuestas = Encuesta.adhoc(adhocPreguntas)
-    encuestasRandom = adhocEncuestas.generarEncuestasAleatorias(10)
+    encuestasRandom = adhocEncuestas.generarEncuestasAleatorias(5)
 
-    adhocLlamadas = Llamada.adhoc(encuestasRandom[random.randint(0, 9)])
+    adhocLlamadas = Llamada.adhoc()
     llamadasRandom = []
-    for i in range(100):
-        llamadaRandom = adhocLlamadas.generarLlamadaRandom()
+    for i in range(5):
+        llamadaRandom = adhocLlamadas.generarLlamadaRandom(encuestasRandom[i])
         llamadasRandom.append(llamadaRandom)
 
-
     pantalla = PantallaConsultarEncuesta.PantallaConsultarEncuesta()
-    gestor = GestorConsultarEncuesta.GestorConsultarEncuesta(llamadas = llamadasRandom)
+    gestor = GestorConsultarEncuesta.GestorConsultarEncuesta(llamadas = llamadasRandom, encuestas = encuestasRandom)
 
     pantalla.setGestor(gestor)
     gestor.setPantalla(pantalla)

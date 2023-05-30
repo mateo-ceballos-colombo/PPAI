@@ -66,6 +66,15 @@ class adhoc:
                 preguntaRandom = random.choice(self.preguntas)
             preguntas[i] = preguntaRandom
 
+            for preguntaBool in preguntasRandomBool:
+                if preguntaRandom == preguntaBool:
+                    respuestas = adhocRespuestaPosible.getRtasSiNo()
+            for preguntaNumerica in preguntasRandomNros:
+                if preguntaRandom == preguntaNumerica:
+                    respuestas = adhocRespuestaPosible.getRtas1Al10()
+
+            preguntas[i] = Pregunta(preguntaRandom, respuestas)
+            
         return preguntas
 
 

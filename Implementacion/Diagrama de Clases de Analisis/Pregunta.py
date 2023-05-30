@@ -13,14 +13,14 @@ class Pregunta:
         return self.respuestas[0].getDescripcionRta()
 
 class adhoc:
-    def generarPreguntasAleatorias(cantidadPreguntas):
+    def generarPreguntasAleatorias(self, cantidadPreguntas):
         preguntasRandom = [
             ['¿Le gustó la atención?', []],
             ['¿Del 1 al 10 en cuánto nos calificaría?', []],
             ['¿Nos recomendaría a otras personas?', []]
         ]
 
-        rtaPosibleadhoc = RespuestaPosible.adhoc()
+        rtaPosibleAdhoc = RespuestaPosible.adhoc()
 
         preguntas = cantidadPreguntas * [None]
 
@@ -28,9 +28,9 @@ class adhoc:
             preguntaRandom = preguntasRandom[i][0]
             
             if preguntas[i].pregunta == preguntasRandom[1][0]:
-                respuestaPosible = rtaPosibleadhoc.generarRespuestas(1, 0)
+                respuestaPosible = rtaPosibleAdhoc.generarRespuestas(1, 0)
             else: 
-                respuestaPosible = rtaPosibleadhoc.generarRespuestas(1, 1)
+                respuestaPosible = rtaPosibleAdhoc.generarRespuestas(1, 1)
 
             preguntas[i] = Pregunta(preguntaRandom, respuestaPosible)
         

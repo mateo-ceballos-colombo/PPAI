@@ -18,66 +18,99 @@ class CambioEstado:
 
     def getFechaHoraInicio(self):
         return self.fechaHoraInicio
+    
+    def getFechaHoraFin(self):
+        return self.fechaHoraFin
 
     def getNombreEstado(self):
         return self.estado.getNombre()
     
     def __str__(self):
         r = ''
-        r += '{:<40}'.format("Fecha y Hora de Inicio: " + self.fechaHoraInicio.strftime("%d/%m/%Y"))
-        r += '{:<40}'.format("Fecha y Hora de Fin: " + 
-            (self.fechaHoraFin.strftime("%d/%m/%Y") if self.fechaHoraFin is not None else "No tiene"))
+        r += '{:<50}'.format("Fecha y Hora de Inicio: " + self.fechaHoraInicio.strftime("%d/%m/%Y %H:%M:%S"))
+        r += '{:<50}'.format("Fecha y Hora de Fin: " + 
+            (self.fechaHoraFin.strftime("%d/%m/%Y %H:%M:%S") if self.fechaHoraFin is not None else "No tiene"))
         r += '{:<40}'.format("Estado: " + self.estado.getNombre())
         return r
 
 class adhoc:
-    def obtenerFechaRandom(self, start_date, end_date):
-        # Convertir las fechas de inicio y fin de string a datetime
-        startDatetime = datetime.strptime(start_date, "%d/%m/%Y")
-        endDatetime = datetime.strptime(end_date, "%d/%m/%Y")
+    def obtenerFechaHoraRandom(self, startDate = datetime(day=1,month=1,year=1990), endDate = datetime(day=1,month=1,year=2022)):
+        # Calcular el rango de fechas
+        dateRange = endDate - startDate
 
-        # Calculate the range of dates
-        dateRange = endDatetime - startDatetime
-
-        # Generate a random number of days within the range
+        # Generar un numero aleatorio en el rango
         randomDays = random.randint(0, dateRange.days)
 
-        # Add the random number of days to the start date
-        randomDate = startDatetime + timedelta(days = randomDays)
+        # Agregar el numero aleatorio de dias
+        randomDate = startDate + timedelta(days = randomDays)
+
+        # Agregar hora, minutos y segundos random
+        randomDate = randomDate + timedelta(seconds=random.randint(1, 59), minutes=random.randint(1, 59), hours=random.randint(1, 23))
 
         return randomDate
-
-    # Crea un cambio de estado. Si es ultimo estado, no tiene fecha de fin
-    def crearCambioEstado(self, esUltimoestado):
-        fechaRandomInicio = self.obtenerFechaRandom("01/01/1900", "31/12/2022")
-        
+    
+    def obtenerCambiosEstado(self, index = 0):
+        # El index representa cual de las combinaciones posibles de cambio de estado se usara segun la maquina de estados
+        # 0: Iniciada -> Finalizada
+        # 1: Iniciada -> En Curso -> Finalizada
+        # 2: Iniciada -> Cancelada
+        # 3: Iniciada -> En Curso -> Cancelada
 
         adhocEstado = Estado.adhoc()
+        fechaHoraInicioRandom = self.obtenerFechaHoraRandom()
 
-        estado = adhocEstado.obtenerEstado()
-
-        if esUltimoestado:
-            fechaRandomFin = None
-        else:
-            fechaRandomFin = self.obtenerFechaRandom("01/01/1900", "31/12/2022")
-            while fechaRandomFin < fechaRandomInicio:
-                fechaRandomFin = self.obtenerFechaRandom("01/01/1900", "31/12/2022")
+        cambioEstadoIniciada = CambioEstado(
+                fechaHoraInicioRandom, 
+                fechaHoraInicioRandom + timedelta(minutes = random.randint(1, 15), seconds=random.randint(1, 59)),
+                adhocEstado.obtenerEstados()[0]
+            )
         
-        cambioEstado = CambioEstado(fechaRandomInicio, fechaRandomFin, estado)
-        return cambioEstado
+        if index == 0:
+            cambioEstadoFinalizada = CambioEstado(
+                cambioEstadoIniciada.getFechaHoraFin(),
+                None,
+                adhocEstado.obtenerEstados()[2]
+            )
+            return [cambioEstadoIniciada, cambioEstadoFinalizada]
+        elif index == 1:
+            cambioEstadoEnCurso = CambioEstado(
+                cambioEstadoIniciada.getFechaHoraFin(),
+                cambioEstadoIniciada.getFechaHoraFin() + timedelta(minutes = random.randint(1, 15), seconds=random.randint(1, 59)),
+                adhocEstado.obtenerEstados()[1]
+            )
+            cambioEstadoFinalizada = CambioEstado(
+                cambioEstadoEnCurso.getFechaHoraFin(),
+                None,
+                adhocEstado.obtenerEstados()[2]
+            )
+            return [cambioEstadoIniciada, cambioEstadoEnCurso, cambioEstadoFinalizada]
+        elif index == 2:
+            cambioEstadoCancelada = CambioEstado(
+                cambioEstadoIniciada.getFechaHoraFin(),
+                None,
+                adhocEstado.obtenerEstados()[3]
+            )
+            return [cambioEstadoIniciada, cambioEstadoCancelada]
+        elif index == 3:
+            cambioEstadoEnCurso = CambioEstado(
+                cambioEstadoIniciada.getFechaHoraFin(),
+                cambioEstadoIniciada.getFechaHoraFin() + timedelta(minutes = random.randint(1, 15), seconds=random.randint(1, 59)),
+                adhocEstado.obtenerEstados()[1]
+            )
+            cambioEstadoCancelada = CambioEstado(
+                cambioEstadoEnCurso.getFechaHoraFin(),
+                None,
+                adhocEstado.obtenerEstados()[3]
+            )
+            return [cambioEstadoIniciada, cambioEstadoEnCurso, cambioEstadoCancelada]
     
 def test():
     adhocCambioEstado = adhoc()
-    vec = []
-    for i in range(5):
-        estados = [True, False]
-        selec = random.choice(estados)
-        cm = adhocCambioEstado.crearCambioEstado(selec)
-        vec.append(cm)
-
-        print(vec[i])
-        print("Es ultimo estado:", vec[i].esUltimoEstado())
-    
+    for i in range(4):
+        print()
+        cambiosEstado = adhocCambioEstado.obtenerCambiosEstado(i)
+        for i in range(len(cambiosEstado)):
+            print(cambiosEstado[i])
 
 if __name__ == "__main__":
     test()

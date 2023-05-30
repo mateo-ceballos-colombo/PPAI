@@ -36,6 +36,7 @@ class adhoc:
 
         for i in range(cantidadPreguntas):
             preguntaRandom = random.choice(preguntasRandom)
+            preguntasRandom.remove(preguntaRandom) # Para que no se repita la pregunta
 
             for preg1 in preguntasRandomBool:
                 if preguntaRandom == preg1:

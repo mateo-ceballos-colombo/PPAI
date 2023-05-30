@@ -28,14 +28,14 @@ class adhoc:
             'Del 1 al 10, ¿qué tan rápido fue el tiempo de respuesta de nuestro equipo de atención al cliente?'
         ]
 
-        preguntasRandom = preguntasRandomBool + preguntasRandomNros
+        #preguntasRandom = preguntasRandomBool + preguntasRandomNros
 
         rtaPosibleadhoc = RespuestaPosible.adhoc()
 
         preguntas = cantidadPreguntas * [None]
 
         for i in range(cantidadPreguntas):
-            preguntaRandom = random.choice(preguntasRandom)
+            preguntaRandom = random.choice(preguntasRandomBool + preguntasRandomNros)
 
             for preg1 in preguntasRandomBool:
                 if preguntaRandom == preg1:

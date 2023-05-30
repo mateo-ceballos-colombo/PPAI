@@ -47,8 +47,11 @@ class PantallaConsultarEncuesta:
         self.lblSeleccionImpresion = lblSeleccionImpresion
         self.comboImpresoras = comboImpresoras
 
-        self.fechaInicio = datetime.now()
-        self.fechaFin = datetime.now()
+        self.fechaInicio = datetime(day = 1, month = 1, year = 1990)
+        self.fechaFin = datetime(day = 1, month = 1, year = 2022)
+
+    def setGestor(self, gestorConsultarEncuesta):
+        self.gestor = gestorConsultarEncuesta
 
     def opcionConsultarEncuesta(self, gestor):
         self.gestor = gestor
@@ -116,14 +119,13 @@ class PantallaConsultarEncuesta:
     def tomarPeriodo(self):
         self.gestor.tomarPeriodo(self.fechaInicio, self.fechaFin)
     
-    def pedirSeleccionLlamada(self, llamadasAMostrar):
-        self.llamadasAMostrar = llamadasAMostrar
+    def pedirSeleccionLlamada(self, fechasLlamadasAMostrar):
+        self.llamadasAMostrar = fechasLlamadasAMostrar
 
         toprow = ['Fila', 'Fecha Llamada']
         rows = []
         for i in range(len(self.llamadasAMostrar)):
-            # HARDCODED
-            rows.append([str(i + 1), '12/12/12'])
+            rows.append([str(i + 1), self.llamadasAMostrar[i]])
 
         tbl = GUI.Table(values = rows, headings = toprow,
             key = 'tblLlamadas',
@@ -141,7 +143,7 @@ class PantallaConsultarEncuesta:
             [GUI.Push(), eval(self.btnVolver), eval(self.btnSiguiente), eval(self.btnCancel)]
         ]
 
-        window = GUI.Window('Consultar Encuesta', layout, resizable = False)
+        window = GUI.Window('Consultar Encuesta', layout, resizable = True)
 
         fila = None
 

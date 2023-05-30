@@ -3,15 +3,22 @@ import os
 import PantallaConsultarEncuesta
 import GestorConsultarEncuesta
 import Llamada
+import Encuesta
 
 def main():
     # os.system('cls')
-    
-    llamadas = []
-    Llamada.generarLlamadaRandom(llamadas, 20)
+
+    adhocLlamadas = Llamada.adhoc()
+    llamadasRandom = []
+    for i in range(50):
+        llamadaRandom = adhocLlamadas.generarLlamadaRandom()
+        llamadasRandom.append(llamadaRandom)
 
     pantalla = PantallaConsultarEncuesta.PantallaConsultarEncuesta()
-    gestor = GestorConsultarEncuesta.GestorConsultarEncuesta(pantalla, llamadas)
+    gestor = GestorConsultarEncuesta.GestorConsultarEncuesta(llamadas = llamadasRandom)
+
+    pantalla.setGestor(gestor)
+    gestor.setPantalla(pantalla)
 
     pantalla.opcionConsultarEncuesta(gestor)
 

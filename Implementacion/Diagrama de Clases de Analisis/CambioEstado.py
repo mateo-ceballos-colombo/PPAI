@@ -25,6 +25,9 @@ class CambioEstado:
     def getNombreEstado(self):
         return self.estado.getNombre()
     
+    def getEstado(self):
+        return self.estado
+    
     def __str__(self):
         r = ''
         r += '{:<50}'.format("Fecha y Hora de Inicio: " + self.fechaHoraInicio.strftime("%d/%m/%Y %H:%M:%S"))

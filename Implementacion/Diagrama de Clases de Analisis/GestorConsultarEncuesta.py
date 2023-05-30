@@ -20,6 +20,9 @@ class GestorConsultarEncuesta:
         self.fechaFinPeriodo = fechaFinPeriodo
         self.llamadasDePeriodo = llamadasDePeriodo
 
+    def setPantalla(self, pantallaConsultarEncuesta):
+        self.pantalla = pantallaConsultarEncuesta
+
     def nuevaConsultaEncuesta(self):
         self.pantalla.pedirPeriodo()
 
@@ -29,19 +32,30 @@ class GestorConsultarEncuesta:
         self.buscarLlamadas()
 
     def buscarLlamadas(self):
-        '''
+        self.llamadasDePeriodo = []
         for llamada in self.llamadas:
             if llamada.esDePeriodo(self.fechaInicioPeriodo, self.fechaFinPeriodo):
                 self.llamadasDePeriodo.append(llamada)
-        '''
-        # HARDCODED
-        # Cambiar llamadas por llamadas de periodo cuando este implementado
-        self.pantalla.pedirSeleccionLlamada(self.llamadas)
+
+        self.llamadasDePeriodo.sort(key = lambda x: x.obtenerFechaHoraInicio())
+        fechasLlamadas = []
+        for llamada in self.llamadasDePeriodo:
+            fechasLlamadas.append(datetime.strftime(llamada.obtenerFechaHoraInicio(), '%d/%m/%Y %H:%M:%S'))
+
+        self.pantalla.pedirSeleccionLlamada(fechasLlamadas)
 
     def tomarSeleccionLlamada(self, indexLlamada):
+        self.nombreClienteDeLlamada = self.llamadasDePeriodo[indexLlamada].getNombreClienteDeLlamada()
+        self.estadoLlamada = self.llamadasDePeriodo[indexLlamada].getEstadoActual()
+        self.duracionLlamada = self.llamadasDePeriodo[indexLlamada].getDuracion()
         # HARDCODED
-        preguntas = [['Pregunta 1', 'Respuesta 1'], ['Pregunta 2', 'Respuesta 2'], ['Pregunta 3', 'Respuesta 3']]
-        self.pantalla.pedirSeleccionSalida('(Nombre cliente)', '(Estado actual)', '(duracion)', '(encuesta realizada)', preguntas)
+        self.preguntasYRtas = [['Pregunta 1', 'Respuesta 1'], ['Pregunta 2', 'Respuesta 2'], ['Pregunta 3', 'Respuesta 3']]
+        self.pantalla.pedirSeleccionSalida(
+            self.nombreClienteDeLlamada, 
+            self.estadoLlamada, 
+            self.duracionLlamada, 
+            '(encuesta realizada)', 
+            self.preguntasYRtas)
 
     def buscarDatosRtas(self):
         pass
@@ -77,10 +91,9 @@ class GestorConsultarEncuesta:
 
     def generarCsv(self):
         # HARDCODED
-        row_list = [["SNo", "Name", "Subject"],
-              [1, "Ash Ketchum", "English"],
-              [2, "Gary Oak", "Mathematics"],
-              [3, "Brock Lesner", "Physics"]]
+        row_list = [[self.nombreClienteDeLlamada, self.estadoLlamada, self.duracionLlamada]]
+        for preguntaYRta in self.preguntasYRtas:
+            row_list.append(preguntaYRta)
 
         with open('temp.csv', 'w', newline='') as file:
             writer = csv.writer(file)

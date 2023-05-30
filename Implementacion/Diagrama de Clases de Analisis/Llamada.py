@@ -35,7 +35,18 @@ class Llamada:
         return duracion
 
     def esDePeriodo(self, fechaInicio, fechaFin):
-        pass
+        for cambioEstado in self.cambiosEstado:
+            if cambioEstado.esEstadoInicial():
+                fechaHoraInicio = cambioEstado.getFechaHoraInicio()
+
+        if fechaInicio <= fechaHoraInicio <= fechaFin:
+            return True
+        return False
+    
+    def obtenerFechaHoraInicio(self):
+        for cambioEstado in self.cambiosEstado:
+            if cambioEstado.esEstadoInicial():
+                return cambioEstado.getFechaHoraInicio()
 
     def getDuracion(self):
         return self.duracion
@@ -61,8 +72,10 @@ class Llamada:
     def getLlamada(self):
         return self
 
-    def getEstadoActual():
-        pass
+    def getEstadoActual(self):
+        for i in range(len(self.cambiosEstado)):
+            if self.cambiosEstado[i].esUltimoEstado():
+                return self.cambiosEstado[i].getNombreEstado()
 
     def __str__(self):
         r = ''
@@ -85,12 +98,9 @@ class adhoc:
         
         descripcionOperadorRandom = random.choice(desc)
         detalleAccionRequeridaRandom = random.choice(accionreq)
-        duracion = [random.randint(1, 20), random.randint(1, 60)]
-        encuestaEnviada = bool(random.getrandbits(1))
+        encuestaEnviada = True
         observacionAuditor = random.choice(observAudi)
-
         clienteRandom = Cliente.adhoc().obtenerClienteRandom()
-
         cambiosEstadoRandom = CambioEstado.adhoc().obtenerCambiosEstado(index = random.randint(0, 3))
 
         llamadaRandom = Llamada(

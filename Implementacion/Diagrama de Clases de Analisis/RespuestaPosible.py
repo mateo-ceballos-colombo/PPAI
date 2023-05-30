@@ -8,6 +8,9 @@ class RespuestaPosible:
     def getDescripcionRta(self):
         return self.descripcion
     
+    def getValorRta(self):
+        return self.valor
+    
     def __str__(self):
         r = ''
         r += '{:<50}'.format('Descripción de la respuesta: ' + self.descripcion)

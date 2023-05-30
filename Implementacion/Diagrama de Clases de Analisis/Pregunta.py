@@ -10,7 +10,10 @@ class Pregunta:
         return self.pregunta
 
     def listarRespuestasPosibles(self):
-        return self.respuestas[0].getDescripcionRta()
+        respuestasPosibles = []
+        for i in range(len(self.respuestas)):
+            respuestasPosibles.append(self.respuestas[i].getValorRta())
+        return respuestasPosibles
 
 class adhoc:
     def generarPreguntasAleatorias(cantidadPreguntas):
@@ -38,31 +41,29 @@ class adhoc:
             preguntaRandom = random.choice(preguntasRandom)
             preguntasRandom.remove(preguntaRandom) # Para que no se repita la pregunta
 
-            for preg1 in preguntasRandomBool:
-                if preguntaRandom == preg1:
-                    respuestaPosible = rtaPosibleadhoc.generarRespuestas1Al10(1, 1)
-            for preg2 in preguntasRandomNros:
-                if preguntaRandom == preg2:
-                    respuestaPosible = rtaPosibleadhoc.generarRespuestas1Al10(1, 0)
+            for preguntaBool in preguntasRandomBool:
+                if preguntaRandom == preguntaBool:
+                    respuestas = rtaPosibleadhoc.generarRespuestasSiNo()
+            for preguntaNumerica in preguntasRandomNros:
+                if preguntaRandom == preguntaNumerica:
+                    respuestas = rtaPosibleadhoc.generarRespuestas1Al10()
 
-            preguntas[i] = Pregunta(preguntaRandom, respuestaPosible)
+            preguntas[i] = Pregunta(preguntaRandom, respuestas)
         
         return preguntas
 
 
 def test():
-    n = int(input('Ingrese la cantidad de preguntas a generar (3 o menos): '))
-    while n < 0 or n > 3:
-        n = int(input('Ingrese la cantidad de preguntas a generar (3 o menos): '))
+    n = int(input('Ingrese la cantidad de preguntas a generar (2 o 3): '))
+    while n < 2 or n > 3:
+        n = int(input('Ingrese la cantidad de preguntas a generar (2 o 3): '))
     
     preguntas = adhoc.generarPreguntasAleatorias(n)
     print('----Preguntas----')
     for i in range(n):
         print('Pregunta:', i + 1)
         print('Descripción:', preguntas[i].pregunta)
-        print('Respuestas posibles:')
-        for respuesta in preguntas[i].respuestas:
-           print('- ' + respuesta.getDescripcionRta())
+        print('Respuestas posibles:', preguntas[i].listarRespuestasPosibles())
         print('---------------------------------')
         #print(preguntas.m_respuestaPosible.getDescripcionRta(preguntas[i].m_respuestaPosible[0]))
 

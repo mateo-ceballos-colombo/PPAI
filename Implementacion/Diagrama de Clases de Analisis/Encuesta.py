@@ -40,7 +40,7 @@ def generarEncuestaAleatoria(cantidadEncuestas, encuestas):
         random_date = dt.date(rnd.randint(current_year, (current_year + 10)), rnd.randint(1, 12), rnd.randint(1, 28))
         encuestas[i].fechaFinVigencia = random_date
         # ~Sobre la siguiente linea: se debe generar 2 o 3 preguntas aleatorias para cada encuesta
-        encuestas[i].m_Pregunta = Pregunta.generarPreguntasAleatorias(rnd.randint(2, 3))
+        encuestas[i].m_Pregunta = Pregunta.adhoc.generarPreguntasAleatorias(rnd.randint(2, 3))
            
     print('Encuestas generadas con exito')
 

@@ -21,7 +21,7 @@ class Cliente:
 
 
 class adhoc:
-    def crearClientes(n):
+    def obtenerClienteRandom(self):
         descNombres = ["Juan","Joaquin","Fabrizio", "Luciana","Matias","Mateo","Federico",
             "Santiago","Lucia","Valentina","Victoria", "Ana", "María","Pedro","Josefina",
             "Jose","Lucio","Patricia","Natalia"]
@@ -29,22 +29,19 @@ class adhoc:
             "Perez", "Gomez", "Sanchez", "Fernandez", "Torres", "Ramirez", "Hernandez", 
             "Garcia", "Silva", "Rojas", "Moreno", "Navarro", "Cruz", "Ortega", "Vargas", "Mendoza"]
         
-        vecClientes = []
-        for i in range(n):
-            dni = random.randint(100000, 46000000)
-            nombreCompleto = random.choice(descNombres) + " " + random.choice(descApellidos)
-            nroCelular = random.randint(540000000000, 550000000000)
-            cliente = Cliente(dni, nombreCompleto, nroCelular)
-            vecClientes.append(cliente)
+        dni = random.randint(100000, 46000000)
+        nombreCompleto = random.choice(descNombres) + " " + random.choice(descApellidos)
+        nroCelular = random.randint(540000000000, 550000000000)
+        cliente = Cliente(dni, nombreCompleto, nroCelular)
 
-        return vecClientes
+        return cliente
 
 
 def test():
-    clientes = adhoc.crearClientes(10)
     for i in range(10):
-        print(clientes[i])
-        print("Get nombre: ", clientes[i].getNombre())
+        cliente = adhoc().obtenerClienteRandom()
+        print(cliente)
+        print("Get nombre: ", cliente.getNombre())
 
 
 if __name__ == "__main__":

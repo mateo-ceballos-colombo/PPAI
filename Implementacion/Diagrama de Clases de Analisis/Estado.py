@@ -14,6 +14,16 @@ class Estado:
             return True
         return False
     
+    def esEnCurso(self):
+        if self.nombre == 'En Curso':
+            return True
+        return False
+    
+    def esCancelada(self):
+        if self.nombre == 'Cancelada':
+            return True
+        return False
+    
     def getNombre(self):
         return self.nombre
     
@@ -24,19 +34,24 @@ class Estado:
 
 
 class adhoc:
-    def obtenerEstado(self):
-        arrayEstados = ['Iniciada', 'En Curso', 'Finalizada', 'Cancelada']
-        nombre = random.choice(arrayEstados)
-        estado = Estado(nombre)
-        return estado
-        
-def test(self):
-    estado = adhoc().obtenerEstado()
-    print(estado)
-    print("Get nombre:", estado.getNombre())
-    print("Es finalizada:", estado.esFinalizada())
-    print("Es iniciada:", estado.esIniciada())
+    def __init__(self):
+        self.estadoIniciada = Estado('Iniciada')
+        self.estadoEnCurso = Estado('En Curso')
+        self.estadoFinalizada = Estado('Finalizada')
+        self.estadoCancelada = Estado('Cancelada')
 
+    def obtenerEstados(self):
+        arrayEstados = [self.estadoIniciada, self.estadoEnCurso, self.estadoFinalizada, self.estadoCancelada]
+        return arrayEstados
+        
+def test():
+    estados = adhoc().obtenerEstados()
+    for estado in estados:
+        print()
+        print(estado)
+        print("Get nombre:", estado.getNombre())
+        print("Es finalizada:", estado.esFinalizada())
+        print("Es iniciada:", estado.esIniciada())
 
 if __name__ == "__main__":
     test()

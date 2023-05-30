@@ -8,7 +8,7 @@ def main():
     # os.system('cls')
     
     llamadas = []
-    Llamada.generarLlamadas(llamadas, 20)
+    Llamada.generarLlamadaRandom(llamadas, 20)
 
     pantalla = PantallaConsultarEncuesta.PantallaConsultarEncuesta()
     gestor = GestorConsultarEncuesta.GestorConsultarEncuesta(pantalla, llamadas)

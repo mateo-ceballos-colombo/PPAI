@@ -28,7 +28,7 @@ class adhoc:
             ['Del 1 al 10, ¿qué tan rápido fue el tiempo de respuesta de nuestro equipo de atención al cliente?']
         ]
 
-        rtaPosibleadhoc = RespuestaPosible.adhoc()
+        rtaPosibleAdhoc = RespuestaPosible.adhoc()
 
         preguntas = cantidadPreguntas * [None]
 

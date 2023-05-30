@@ -12,11 +12,20 @@ class Pregunta:
     def listarRespuestasPosibles(self):
         respuestasPosibles = []
         for i in range(len(self.respuestas)):
-            respuestasPosibles.append(self.respuestas[i].getValorRta())
+            respuestasPosibles.append(str(self.respuestas[i].getValorRta()))
         return respuestasPosibles
+    
+    def __str__(self):
+        r = ''
+        r += '{:<50}\n'.format('Descripción de la pregunta: ' + self.pregunta)
+        respuestasPosibles = self.listarRespuestasPosibles()
+        r += 'Respuestas posibles: '
+        for respuestaPosible in respuestasPosibles:
+            r += '{} '.format(respuestaPosible)
+        return r
 
 class adhoc:
-    def generarPreguntasAleatorias(cantidadPreguntas):
+    def generarPreguntasAleatorias(self, cantidadPreguntas):
         preguntasRandomBool = [
             '¿Le gustó la atención?',
             '¿Nos recomendaría a otras personas?',
@@ -58,12 +67,10 @@ def test():
     while n < 2 or n > 3:
         n = int(input('Ingrese la cantidad de preguntas a generar (2 o 3): '))
     
-    preguntas = adhoc.generarPreguntasAleatorias(n)
+    preguntas = adhoc().generarPreguntasAleatorias(n)
     print('----Preguntas----')
     for i in range(n):
-        print('Pregunta:', i + 1)
-        print('Descripción:', preguntas[i].pregunta)
-        print('Respuestas posibles:', preguntas[i].listarRespuestasPosibles())
+        print(preguntas[i])
         print('---------------------------------')
         #print(preguntas.m_respuestaPosible.getDescripcionRta(preguntas[i].m_respuestaPosible[0]))
 

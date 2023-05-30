@@ -1,14 +1,14 @@
 import Pregunta
 import random
 import random as rnd
-import datetime as dt
+from datetime import datetime
 import FechaYHora
 
 class Encuesta:
-    def __init__(self, descripcion='', fechaFinVigencia='', preg=None):
+    def __init__(self, descripcion='', fechaFinVigencia='', preguntas=None):
         self.descripcion = descripcion
         self.fechaFinVigencia = fechaFinVigencia
-        self.preguntas = preg
+        self.preguntas = preguntas
 
     def armarEncuesta(self):
         pass
@@ -23,42 +23,47 @@ class Encuesta:
 
     def getDescripcionEncuesta(self):
         return self.descripcion
+    
+    def __str__(self):
+        r = ''
+        r += '{:<50}\n'.format('Descripción de la encuesta: ' + self.descripcion)
+        r += '{:<30}\n'.format('Fecha de fin de vigencia: ' + datetime.strftime(self.fechaFinVigencia, "%d/%m/%Y %H:%M:%S"))
+        r += 'Preguntas: \n'
+        for pregunta in self.preguntas:
+            r += '- {:<30}'.format(str(pregunta))
+            r += '\n'
+        return r
 
 class adhoc:
     descrip = ['Encuesta de satisfaccion', 'Encuesta de calidad', 'Encuesta de servicio', 
     'Encuesta de producto', 'Encuesta de atencion al cliente', 'Encuesta de atencion al publico']
 
-    def generarEncuestaAleatoria(self, cantidadEncuestas, encuestas):
+    def generarEncuestasAleatorias(self, cantidadEncuestas):
+
+        encuestas = cantidadEncuestas * [None]
 
         for i in range(cantidadEncuestas):
             descripcion = random.choice(self.descrip)
-            encuestas[i] = Encuesta(descripcion)
-            random_date = FechaYHora.obtenerFechaHoraRandom()
-            encuestas[i].fechaFinVigencia = random_date
-
+            randomDate = FechaYHora.obtenerFechaHoraRandom(endDate=datetime(2030, 12, 31))
             # Se debe generar 2 o 3 preguntas aleatorias para cada encuesta
-            encuestas[i].m_Pregunta = Pregunta.adhoc.generarPreguntasAleatorias(rnd.randint(2, 3))
+            preguntasRandom = Pregunta.adhoc().generarPreguntasAleatorias(rnd.randint(2, 3))
+            encuestas[i] = Encuesta(descripcion, randomDate, preguntasRandom)
+        
+        return encuestas
 
-        print('Encuestas generadas con exito')
-
-    def mostrar(vector):
+    def mostrar(self, vector):
         print('----Encuestas----')
         for i in range(len(vector)):
-            print('Encuesta ', i + 1)
-            print('Descripcion: ', vector[i].descripcion)
-            print('Fecha de fin de vigencia: ', vector[i].fechaFinVigencia)
-            print('Preguntas: ')
-            for j in range(len(vector[i].m_Pregunta)):
-                print(vector[i].m_Pregunta[j].pregunta)
+            print(vector[i])
             print('---------------------------------')
 
 
 def main():
     n = int(input('Ingrese la cantidad de encuestas a generar: '))
 
-    encuestas = n * [None]
-    generarEncuestaAleatoria(n, encuestas)
-    mostrar(encuestas)
+    encuestasAdhoc = adhoc()
+    encuestas = encuestasAdhoc.generarEncuestasAleatorias(n)
+    encuestasAdhoc.mostrar(encuestas)
     
 
 if __name__ == '__main__':

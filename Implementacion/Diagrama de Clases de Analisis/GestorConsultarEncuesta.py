@@ -55,7 +55,10 @@ class GestorConsultarEncuesta:
         for llamada in self.llamadasDePeriodo:
             fechasLlamadas.append(datetime.strftime(llamada.obtenerFechaHoraInicio(), '%d/%m/%Y %H:%M:%S'))
 
-        self.pantalla.pedirSeleccionLlamada(fechasLlamadas)
+        if len(fechasLlamadas) > 0:
+            self.pantalla.pedirSeleccionLlamada(fechasLlamadas)
+        else:
+            self.pantalla.mostrarNoHayLlamadas()
 
     def buscarDatosLlamada(self, indexLlamada):
         self.nombreClienteDeLlamada = self.llamadasDePeriodo[indexLlamada].getNombreClienteDeLlamada()

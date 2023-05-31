@@ -173,6 +173,10 @@ class PantallaConsultarEncuesta:
 
         window.close()
 
+    def mostrarNoHayLlamadas(self):
+        GUI.popup('No hay llamadas para el periodo seleccionado\nPor favor, seleccione otro periodo', title='Consultar Encuesta')
+        self.pedirPeriodo()
+
     def tomarSeleccionLlamada(self, indexLlamada):
         self.gestor.tomarSeleccionLlamada(indexLlamada)
 

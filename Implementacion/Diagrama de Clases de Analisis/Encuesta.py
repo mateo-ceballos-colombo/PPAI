@@ -15,7 +15,8 @@ class Encuesta:
 
     def esEncuestaDeCliente(self):
         pass
-
+    
+    # Encuesta es Vigente si aún no superó la fechaHora actual
     def esVigente(self):
         if self.fechaFinVigencia > datetime.now():
             return True
@@ -45,7 +46,7 @@ class adhoc:
         self.adhocPreguntas = adhocPreguntas
 
     def generarEncuestasAleatorias(self, cantidadEncuestas, adhocPreguntas = None):
-
+        # Crear array de Encuestas 
         encuestas = cantidadEncuestas * [None]
 
         if adhocPreguntas is None:
@@ -57,15 +58,14 @@ class adhoc:
             # Se debe generar 2 o 3 preguntas aleatorias para cada encuesta
             preguntasRandom = copy.deepcopy(adhocPreguntas.obtenerPreguntasAleatorias(random.randint(2, 3)))
             encuestas[i] = Encuesta(descripcion, randomDate, preguntasRandom)
-        
         return encuestas
 
+    # Mostrar las encuestas generadas
     def mostrar(self, vector):
         print('----Encuestas----')
         for i in range(len(vector)):
             print(vector[i])
             print('---------------------------------')
-
 
 def main():
     n = int(input('Ingrese la cantidad de encuestas a generar: '))
@@ -73,7 +73,6 @@ def main():
     encuestasAdhoc = adhoc()
     encuestas = encuestasAdhoc.generarEncuestasAleatorias(n)
     encuestasAdhoc.mostrar(encuestas)
-    
 
 if __name__ == '__main__':
     main()

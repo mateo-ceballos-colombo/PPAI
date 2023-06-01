@@ -4,6 +4,7 @@ class Estado:
     def __init__(self, nombre):
         self.nombre = nombre
 
+    # Estados ------------------------
     def esFinalizada(self):
         if self.nombre == 'Finalizada':
             return True
@@ -23,6 +24,7 @@ class Estado:
         if self.nombre == 'Cancelada':
             return True
         return False
+    # --------------------------------
     
     def getNombre(self):
         return self.nombre
@@ -32,7 +34,6 @@ class Estado:
         r += '{:<30}'.format("Nombre Estado: " + str(self.nombre))
         return r
 
-
 class adhoc:
     def __init__(self):
         self.estadoIniciada = Estado('Iniciada')
@@ -40,6 +41,7 @@ class adhoc:
         self.estadoFinalizada = Estado('Finalizada')
         self.estadoCancelada = Estado('Cancelada')
 
+    # Método para obtener los Estados de la Llamada
     def obtenerEstados(self):
         arrayEstados = [self.estadoIniciada, self.estadoEnCurso, self.estadoFinalizada, self.estadoCancelada]
         return arrayEstados

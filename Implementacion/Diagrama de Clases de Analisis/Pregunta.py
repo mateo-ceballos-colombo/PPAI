@@ -29,6 +29,7 @@ class Pregunta:
         return r
 
 class adhoc:
+    # Preguntas que se responden con Si o No
     preguntasRandomBool = [
         '¿Le gustó la atención?',
         '¿Nos recomendaría a otras personas?',
@@ -36,6 +37,7 @@ class adhoc:
         '¿Experimentaste alguna dificultad técnica o de comunicación durante la interacción?',
         '¿El personal de atención al cliente demostró conocimiento y competencia en su respuesta?'
     ]
+    # Preguntas que se responden con cantidad numérica
     preguntasRandomNros = [
         'Del 1 al 10, ¿en cuánto nos calificaría?',
         'Del 1 al 10, ¿qué tan fácil fue contactar a nuestro servicio de atención al cliente?',
@@ -68,7 +70,6 @@ class adhoc:
             preguntas[i] = preguntaRandom
             
         return preguntas
-
 
 def test():
     n = int(input('Ingrese la cantidad de preguntas a generar (2 o 3): '))

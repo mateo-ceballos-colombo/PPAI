@@ -44,12 +44,14 @@ class GestorConsultarEncuesta:
         self.fechaFinPeriodo = fechaFin
         self.buscarLlamadas()
 
+    # Busco las Llamadas para el Período seleccionado y las almaceno
     def buscarLlamadas(self):
         self.llamadasDePeriodo = []
         for llamada in self.llamadas:
-            if llamada.esDePeriodo(self.fechaInicioPeriodo, self.fechaFinPeriodo):
+            if llamada.esDePeriodo(self.fechaInicioPeriodo, self.fechaFinPeriodo) and llamada.getEncuestaEnviada():
                 self.llamadasDePeriodo.append(llamada)
 
+        # Ordeno a través de la función 'lambda'por fechaHoraInicio (tomando como parámetro cada llamada) y guardo en array las fechas
         self.llamadasDePeriodo.sort(key = lambda x: x.obtenerFechaHoraInicio())
         fechasLlamadas = []
         for llamada in self.llamadasDePeriodo:
@@ -65,12 +67,13 @@ class GestorConsultarEncuesta:
         self.estadoLlamada = self.llamadasDePeriodo[indexLlamada].getEstadoActual()
         self.duracionLlamada = self.llamadasDePeriodo[indexLlamada].getDuracion()
 
+    # Busco datos de la llamada seleccionada
     def tomarSeleccionLlamada(self, indexLlamada):
         self.buscarDatosLlamada(indexLlamada)
-        # HARDCODED
         respuestas = self.llamadasDePeriodo[indexLlamada].getRespuestas()
         self.preguntasYRtasSeleccionadas = []
 
+        # Para saber qué Pregunta Respondió el Cliente:
         preguntas = []
         self.descripcionEncuesta = ''
         for encuesta in self.encuestas:
@@ -128,7 +131,6 @@ class GestorConsultarEncuesta:
         self.finCU()
 
     def generarCsv(self):
-        # HARDCODED
         row_list = [[self.nombreClienteDeLlamada, self.estadoLlamada, self.duracionLlamada]]
         for preguntaYRta in self.preguntasYRtasSeleccionadas:
             row_list.append(preguntaYRta)

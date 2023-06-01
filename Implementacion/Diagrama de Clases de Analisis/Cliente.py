@@ -6,9 +6,11 @@ class Cliente:
         self.nombreCompleto = nombreCompleto
         self.nroCelular = nroCelular
 
+    # Preguntar si es cliente
     def esCliente(self):
         return True
 
+    # Obtener el Nombre Completo del Cliente
     def getNombre(self):
         return self.nombreCompleto
     
@@ -19,12 +21,13 @@ class Cliente:
         r += '{:<40}'.format("Numero celular: " + str(self.nroCelular))
         return r
 
-
 class adhoc:
     def obtenerClienteRandom(self):
+        # Nombres aleatorios
         descNombres = ["Juan","Joaquin","Fabrizio", "Luciana","Matias","Mateo","Federico",
             "Santiago","Lucia","Valentina","Victoria", "Ana", "María","Pedro","Josefina",
             "Jose","Lucio","Patricia","Natalia"]
+        # Apellidos aleatorios
         descApellidos = ["Sposetti","Gonzalez", "Rodriguez", "Lopez", "Martinez", 
             "Perez", "Gomez", "Sanchez", "Fernandez", "Torres", "Ramirez", "Hernandez", 
             "Garcia", "Silva", "Rojas", "Moreno", "Navarro", "Cruz", "Ortega", "Vargas", "Mendoza"]
@@ -32,17 +35,16 @@ class adhoc:
         dni = random.randint(100000, 46000000)
         nombreCompleto = random.choice(descNombres) + " " + random.choice(descApellidos)
         nroCelular = random.randint(540000000000, 550000000000)
+
+        # Creo objeto Cliente con datos random
         cliente = Cliente(dni, nombreCompleto, nroCelular)
-
         return cliente
-
 
 def test():
     for i in range(10):
         cliente = adhoc().obtenerClienteRandom()
         print(cliente)
-        print("Get nombre: ", cliente.getNombre())
-
+        #print("Get nombre: ", cliente.getNombre())
 
 if __name__ == "__main__":
     test()

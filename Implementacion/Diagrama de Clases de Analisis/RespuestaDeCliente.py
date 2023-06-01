@@ -1,6 +1,3 @@
-
-import RespuestaPosible
-import FechaYHora
 import random
 
 class RespuestaDeCliente:
@@ -29,6 +26,7 @@ class adhoc:
             rtasGeneradas.append(random.choice(rtasPosibles))
             rtasPosibles = []
         
+        # Agrego al array las Respuestas del Cliente
         rtasDeCliente = []
         for rtaGenerada in rtasGeneradas:
             rtasDeCliente.append(RespuestaDeCliente(fechaEncuesta, rtaGenerada))

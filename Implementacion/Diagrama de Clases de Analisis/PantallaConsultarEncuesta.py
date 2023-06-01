@@ -53,6 +53,7 @@ class PantallaConsultarEncuesta:
     def setGestor(self, gestorConsultarEncuesta):
         self.gestor = gestorConsultarEncuesta
 
+    # Opción para Consultar Encuesta (inicio del CU)
     def opcionConsultarEncuesta(self, gestor):
         self.gestor = gestor
         self.habilitarVentana()

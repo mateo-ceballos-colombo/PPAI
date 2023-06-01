@@ -54,6 +54,7 @@ class adhoc:
                 estado = estados[0]
             )
         
+        # Posibles caminos que puede tener la Llamada
         if index == 0:
             cambioEstadoFinalizada = CambioEstado(
                 cambioEstadoIniciada.getFechaHoraFin(),

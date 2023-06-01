@@ -21,6 +21,10 @@ class Llamada:
 
         self.duracion = self.calcularDuracion()
     
+    def getEncuestaEnviada(self):
+        return self.encuestaEnviada
+
+    # Cálculo de la duración de la llamada a través de Cambio de Estado
     def calcularDuracion(self):
         cambioEstadoIniciada = None
         cambioEstadoFinalizada = None
@@ -58,6 +62,7 @@ class Llamada:
     def getRespuestas(self):
         return self.respuestasDeEncuesta
 
+    # Métodos que no usamos ---------
     def setDescripcionOperador(self):
         pass
 
@@ -69,7 +74,8 @@ class Llamada:
 
     def tieneRta(self):
         pass
-
+    # -------------------------------
+    
     def getLlamada(self):
         return self
 
@@ -94,7 +100,7 @@ class adhoc:
     def generarLlamadaRandom(self, encuesta = Encuesta.adhoc().generarEncuestasAleatorias(1)[0]):
         desc = ['Ofrecimiento de reembolso o crédito para compensar cualquier cargo adicional.',
                 'Asistencia técnica para resolver problemas de velocidad de conexión.',
-                'Aclaración de las políticas de cancelación', 'Aclaración de las políticas de de cambio de servicio.',
+                'Aclaración de las políticas de cancelación', 'Aclaración de las políticas de cambio de servicio.',
                 'Actualización de servicios.']
         accionreq = ['Comunicar saldo.', 'Dar de baja tarjeta.', 'Denunciar un robo.']
         observAudi = ['Ninguna.', 'Incorrecto trato del operador al cliente.', 'Voz poco clara del operador.',
@@ -105,7 +111,9 @@ class adhoc:
         encuestaEnviada = True
         observacionAuditor = random.choice(observAudi)
         clienteRandom = Cliente.adhoc().obtenerClienteRandom()
-        cambiosEstadoRandom = CambioEstado.adhoc().obtenerCambiosEstado(index = random.randint(0, 3))
+        
+        # Generar llamadas que sólo pasan por los estados de Iniciada -> Finalizada o Iniciada ->  
+        cambiosEstadoRandom = CambioEstado.adhoc().obtenerCambiosEstado(index = random.randint(0, 1))
 
         fechaHoraFin = datetime.now()
         for cambioEstado in cambiosEstadoRandom:
@@ -114,7 +122,7 @@ class adhoc:
         rtasDeCliente = RespuestaDeCliente.adhoc().generarRtasCliente(fechaHoraFin, encuesta)
         
 
-
+        # Creo el objeto Llamada 
         llamadaRandom = Llamada(
             descripcionOperadorRandom, detalleAccionRequeridaRandom, encuestaEnviada, observacionAuditor,
             respuestasDeEncuesta = rtasDeCliente, cliente = clienteRandom, cambiosEstado = cambiosEstadoRandom)
